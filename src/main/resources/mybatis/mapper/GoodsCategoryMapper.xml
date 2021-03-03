@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.yuhan.erp.mapper.GoodsCategoryMapper">
+  <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.GoodsCategory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="categoryName" jdbcType="VARCHAR" property="categoryname" />
+    <result column="goodsCount" jdbcType="INTEGER" property="goodscount" />
+    <result column="serialNo" jdbcType="INTEGER" property="serialno" />
+    <result column="lastEditBy" jdbcType="VARCHAR" property="lasteditby" />
+    <result column="lastEditTime" jdbcType="TIMESTAMP" property="lastedittime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from GoodsCategory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ltd.yuhan.erp.model.GoodsCategory">
+    insert into GoodsCategory (id, categoryName, goodsCount, 
+      serialNo, lastEditBy, lastEditTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{categoryname,jdbcType=VARCHAR}, #{goodscount,jdbcType=INTEGER}, 
+      #{serialno,jdbcType=INTEGER}, #{lasteditby,jdbcType=VARCHAR}, #{lastedittime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.GoodsCategory">
+    update GoodsCategory
+    set categoryName = #{categoryname,jdbcType=VARCHAR},
+      goodsCount = #{goodscount,jdbcType=INTEGER},
+      serialNo = #{serialno,jdbcType=INTEGER},
+      lastEditBy = #{lasteditby,jdbcType=VARCHAR},
+      lastEditTime = #{lastedittime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, categoryName, goodsCount, serialNo, lastEditBy, lastEditTime
+    from GoodsCategory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, categoryName, goodsCount, serialNo, lastEditBy, lastEditTime
+    from GoodsCategory
+  </select>
+
+</mapper>

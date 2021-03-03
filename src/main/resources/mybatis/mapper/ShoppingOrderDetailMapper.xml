@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.yuhan.erp.mapper.ShoppingOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.ShoppingOrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="shoppingOrderId" jdbcType="INTEGER" property="shoppingorderid" />
+    <result column="goodsId" jdbcType="INTEGER" property="goodsid" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="totalPrice" jdbcType="DECIMAL" property="totalprice" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ShoppingOrderDetail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ltd.yuhan.erp.model.ShoppingOrderDetail">
+    insert into ShoppingOrderDetail (id, shoppingOrderId, goodsId, 
+      qty, totalPrice, createTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{shoppingorderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, 
+      #{qty,jdbcType=INTEGER}, #{totalprice,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.ShoppingOrderDetail">
+    update ShoppingOrderDetail
+    set shoppingOrderId = #{shoppingorderid,jdbcType=INTEGER},
+      goodsId = #{goodsid,jdbcType=INTEGER},
+      qty = #{qty,jdbcType=INTEGER},
+      totalPrice = #{totalprice,jdbcType=DECIMAL},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, shoppingOrderId, goodsId, qty, totalPrice, createTime
+    from ShoppingOrderDetail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, shoppingOrderId, goodsId, qty, totalPrice, createTime
+    from ShoppingOrderDetail
+  </select>
+
+</mapper>

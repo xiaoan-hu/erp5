@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.yuhan.erp.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="picture" jdbcType="CHAR" property="picture" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="categoryId" jdbcType="INTEGER" property="categoryid" />
+    <result column="lastEditBy" jdbcType="VARCHAR" property="lasteditby" />
+    <result column="lastEditTime" jdbcType="TIMESTAMP" property="lastedittime" />
+    <result column="longer" jdbcType="DECIMAL" property="longer" />
+    <result column="wide" jdbcType="DECIMAL" property="wide" />
+    <result column="high" jdbcType="DECIMAL" property="high" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ltd.yuhan.erp.model.Goods">
+    insert into Goods (id, title, picture, 
+      price, introduction, categoryId, 
+      lastEditBy, lastEditTime, longer, 
+      wide, high, weight)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{picture,jdbcType=CHAR}, 
+      #{price,jdbcType=DECIMAL}, #{introduction,jdbcType=VARCHAR}, #{categoryid,jdbcType=INTEGER}, 
+      #{lasteditby,jdbcType=VARCHAR}, #{lastedittime,jdbcType=TIMESTAMP}, #{longer,jdbcType=DECIMAL}, 
+      #{wide,jdbcType=DECIMAL}, #{high,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.Goods">
+    update Goods
+    set title = #{title,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      categoryId = #{categoryid,jdbcType=INTEGER},
+      lastEditBy = #{lasteditby,jdbcType=VARCHAR},
+      lastEditTime = #{lastedittime,jdbcType=TIMESTAMP},
+      longer = #{longer,jdbcType=DECIMAL},
+      wide = #{wide,jdbcType=DECIMAL},
+      high = #{high,jdbcType=DECIMAL},
+      weight = #{weight,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, title, picture, price, introduction, categoryId, lastEditBy, lastEditTime, 
+    longer, wide, high, weight
+    from Goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, title, picture, price, introduction, categoryId, lastEditBy, lastEditTime, 
+    longer, wide, high, weight
+    from Goods
+  </select>
+
+</mapper>
