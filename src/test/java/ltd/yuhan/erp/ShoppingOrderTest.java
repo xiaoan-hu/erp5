@@ -16,7 +16,7 @@ public class ShoppingOrderTest {
         ApiExecutor apiExecutor = new ApiExecutor("4855454","VI90KjSOEZ");
 
         AlibabaTradeGetSellerOrderListParam orderListParam= new AlibabaTradeGetSellerOrderListParam();
-        orderListParam.setCreateStartTime();
+//        orderListParam.setCreateStartTime();
 
     }
 }
