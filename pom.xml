@@ -40,7 +40,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--为本项目提供JSON转换功能-->
+<!--        &lt;!&ndash;为本项目提供JSON转换功能&ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba</groupId>-->
 <!--            <artifactId>fastjson</artifactId>-->
@@ -51,12 +51,12 @@
             <artifactId>druid</artifactId>
             <version>1.1.6</version>
         </dependency>
-        <!--数据层（ORM）：mybatis-->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.4.5</version>
-        </dependency>
+<!--        &lt;!&ndash;数据层（ORM）：mybatis&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mybatis</groupId>-->
+<!--            <artifactId>mybatis</artifactId>-->
+<!--            <version>3.4.5</version>-->
+<!--        </dependency>-->
         <!--mybatis的spring插件（负责把mybatis集成到spring中）-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
