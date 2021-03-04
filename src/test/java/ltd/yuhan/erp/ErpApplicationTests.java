@@ -2,6 +2,8 @@ package ltd.yuhan.erp;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -24,7 +26,7 @@ class ErpApplicationTests {
     ApplicationContext applicationContext;
 
     @Test
-    public void contextLoads() {
+    public void contextLoads() throws JsonProcessingException {
         // 获取配置的数据源
         DataSource dataSource = applicationContext.getBean(DataSource.class);
         // 查看配置数据源信息
@@ -33,7 +35,8 @@ class ErpApplicationTests {
         System.out.println(dataSourceProperties);
         //执行SQL,输出查到的数据
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        List<?> resultList = jdbcTemplate.queryForList("select * from test");
-        System.out.println("===>>>>>>>>>>>" + JSON.toJSONString(resultList));
+        List<?> resultList = jdbcTemplate.queryForList("select * from Goods");
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("===>>>>>>>>>>>" + objectMapper.writeValueAsString(resultList));
     }
 }
