@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+    <link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+    <script src="/page/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/page/elementUI/element-min.js"></script>
+    <script src="/page/js/jquery.min.js"></script>
+    <title>订单查询</title>
+    <style>
+        .searchTd{
+            padding-right: 25px;
+        }
+    </style>
+</head>
+<body>
+<div id="poDetail">
+    <div>
+
+        <table style="margin-left: 3%;margin-top: 2%">
+            <tr><td class="searchTd"><h4>查询条件</h4></td></tr>
+            <tr>
+                <td class="searchTd">
+                    <span>渠道选择：</span>
+                    <template>
+                    <el-select v-model="category" multiple placeholder="请选择">
+                        <el-option
+                                v-for="item in categoryOption"
+                                :key="item.id"
+                                :label="item.categoryname"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                    </template>
+                </td>
+                <td class="searchTd">
+                    <span>商品名称：</span>
+                    <el-input
+                            placeholder="请输入查询商品名称"
+                            v-model="goodTitle"
+                            style="width: 250px"
+                            clearable>
+                    </el-input>
+                </td>
+                <td class="searchTd"><button class="btn btn-default" @click="searchPO()">查询</button></td>
+            </tr>
+        </table>
+    </div>
+    <div></div>
+    <div>
+        <el-table :data="tableData" border style="width: 94%;margin-left: 3%;margin-top: 2%;">
+                <el-table-column label="商品名称" prop="title"></el-table-column>
+                <el-table-column label="数量" prop="qty"></el-table-column>
+                <el-table-column label="价格" prop="price"></el-table-column>
+                <el-table-column label="小计" prop="totalPrice"></el-table-column>
+                <el-table-column label="删除">
+                    <template slot-scope="scope">
+                        <el-button @click="deletePo(scope.row.id)">删除</el-button>
+                    </template>
+                </el-table-column>
+
+        </el-table>
+        </template>
+    </div>
+</div>
+<script src="/page/js/poDetail.js"></script>
+</body>
+</html>
