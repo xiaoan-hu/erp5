@@ -121,18 +121,14 @@
 		                    alert("获取goods失败！");
 		                });
 				},
-				// addToShoppingCart:function(goods){
-				// 	//加入购物车
-				// 	var self = this;
-				// 	var qty=prompt('请输入购买数量',1);
-				// 	 this.$http.post('/api/addToShoppingCart',{goodsid:goods.id,goodsqty:qty}).then(function(res){
-				// 		 var rs=res.body;
-				// 		 alert(rs.msg);
-				// 		 self.cartCount=rs.data.cartCount;
-		        //         },function(){
-		        //             alert("加入购物车失败");
-		        //         });
-				// }
+				computed: {
+					goods: function () {
+						return this.goods.sort(function (a,b) {
+							return a.quantity - b.quantity;
+						});
+					}
+				}
+
 			}
 		});
 
