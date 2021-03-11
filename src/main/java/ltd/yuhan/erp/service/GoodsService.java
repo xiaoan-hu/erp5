@@ -74,6 +74,8 @@ public class GoodsService {
 		return goodQty;
 	}
 
+
+
 	//根据goodsId查询在途未到货商品数量
 	//Po 状态是0的
 	public int getGoodsInTrans (int goodsId){
@@ -85,6 +87,12 @@ public class GoodsService {
 		}
 
 		return goodsQty;
+	}
+
+	//根据title和category查询goods
+	public List<Goods> getGoodsByTitileAndCategory( String goodTitle,String category) {
+		String[] categorys = category.length()==0?new String[0]:category.split(",");
+		return goodsMapper.selectByTitileAndCategory(goodTitle,categorys);
 	}
 
 

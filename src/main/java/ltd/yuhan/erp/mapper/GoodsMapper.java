@@ -16,5 +16,7 @@ public interface GoodsMapper {
 
     List<Goods> selectAll();
 
+    List<Goods> selectByTitileAndCategory(String goodTitle, String[] categorys);
+
     int updateByPrimaryKey(Goods record);
 }

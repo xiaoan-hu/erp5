@@ -56,4 +56,19 @@
     from Goods
   </select>
 
+  <select id="selectByTitileAndCategory" resultMap="BaseResultMap">
+    select id, title, picture, price, introduction, categoryId, lastEditBy, lastEditTime,
+    longer, wide, high, weight
+    from Goods gg where 1=1
+    <if test="goodTitle != ''">
+      and gg.title like CONCAT('%', #{goodTitle,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="categorys != null and categorys.length>0 ">
+      and gg.categoryId in
+      <foreach collection="categorys" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
 </mapper>

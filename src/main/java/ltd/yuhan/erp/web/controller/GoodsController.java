@@ -23,11 +23,20 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @GetMapping(value = "/goods", produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/goods", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public List<Map<String,String>> getGoodsList() {
-        List<Goods> goodsAllList = goodsService.getGoodsAllList();
-        // TODO 查询库存，在返回list中添加库存数以及在途数
+    public List<Map<String,String>> getGoodsList(String goodTitle,String category) {
+        List<Goods> goodsAllList = goodsService.getGoodsByTitileAndCategory(goodTitle,category);
+        return getViewMaps(goodsAllList);
+
+    }
+
+
+
+
+    // 查询库存，在返回list中添加库存数以及在途数
+    private List<Map<String, String>> getViewMaps(List<Goods> goodsAllList) {
+
         List<Map<String,String>> returnList =new ArrayList<Map<String, String>>();
 
         for (Goods goods: goodsAllList
@@ -48,6 +57,5 @@ public class GoodsController {
         }
 
         return returnList;
-
     }
 }
