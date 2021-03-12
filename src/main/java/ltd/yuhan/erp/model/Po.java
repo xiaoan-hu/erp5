@@ -11,6 +11,8 @@ import java.util.Date;
 public class Po {
     private Integer id;
 
+    private String orderId;
+
     private String user;
 
     private Integer totalqty;
@@ -23,5 +25,9 @@ public class Po {
 
     private Date createtime;
 
+    public Po(){
+        this.totalprice = BigDecimal.ZERO;
+        this.totalqty = 0;
+    }
 
 }

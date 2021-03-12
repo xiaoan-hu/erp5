@@ -22,5 +22,5 @@ public interface PoDetailMapper {
 
     List<PoDetail> selectPoDetailByGoodsId(long goodsId);
 
-    List<Map> getPoDetail(String goodTitle, String[] categorys);
+    List<Map> selectPoDetailByPoId(Integer poId);
 }

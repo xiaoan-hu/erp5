@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+    <link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+    <script src="/page/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/page/elementUI/element-min.js"></script>
+    <script src="/page/js/jquery.min.js"></script>
+    <title>下单成功</title>
+</head>
+<body>
+<div id="success" style="border: #2b542c solid 1px;margin-left:21%;margin-top:10%;width: 900px">
+    <table style="margin: 2%;text-align: center">
+        <tr style="margin-bottom: 10px;"><h3 style="text-align: center">采购信息</h3></tr>
+        <tr>
+            <td style="border: black solid 1px;width: 220px"><h4>订单编号： {{po.orderId}}</h4></td>
+            <td style="border: black solid 1px;width: 180px"><h4>总数： {{po.totalqty}}</h4></td>
+            <td style="border: black solid 1px;width: 180px"><h4>总计： {{po.totalPrice}}</h4></td>
+            <td style="border: black solid 1px;width: 300px"><h4>下单时间：</h4><h4>{{po.createtime}}</h4></td>
+            <td style="border: black solid 1px;width: 200px"><h4>采购员： {{po.user}}</h4></td>
+        </tr>
+    </table>
+    <div style="height: 60%;margin: 4%;width: 815px;">
+        <h4>采购明细：</h4>
+        <el-table border :data="poDetails" tooltip-effect="dark" style="width: 100%">
+            <el-table-column type="index"></el-table-column>
+            <el-table-column prop="title" label="商品名称"></el-table-column>
+            <el-table-column prop="price" label="单价"></el-table-column>
+            <el-table-column prop="qty" label="采购数量"> </el-table-column>
+            <el-table-column prop="totalPrice" label="小计"> </el-table-column>
+        </el-table>
+    </div>
+    <el-button type="primary" plain size="medium" style="margin: 20px;margin-left: 340px" @click="reload()">返回</el-button>
+    <el-button type="primary" plain size="medium" style="margin: 20px" @click="more()">查看更多</el-button>
+</div>
+</body>
+<script>
+    let app=new Vue({
+        el:'#success',
+        data:function () {
+            return{
+                po:{},
+                poDetails:[]
+            }
+        },
+        mounted: function() {
+            this.initDetail();
+        },
+        methods: {
+            initDetail:function () {
+                let urlData = decodeURIComponent(window.location.search);
+                let dataFormat={
+                    id:0,
+                    orderId:'',
+                    totalPrice:0,
+                    totalqty:0,
+                    createtime:"",
+                    user:"",
+                    price:0
+                }
+                urlData.replace("?","").split("&").map(function (item) {
+                    let index = item.indexOf("=")+1;
+                    if (item.startsWith("id")) dataFormat.id=item.substring(index);
+                    if (item.startsWith("orderId")) dataFormat.orderId=item.substring(index);
+                    else if (item.startsWith("totalqty")) dataFormat.totalqty=item.substring(index);
+                    else if (item.startsWith("price")) dataFormat.totalqty=item.substring(index);
+                    else if (item.startsWith("totalprice")) dataFormat.totalPrice=item.substring(index);
+                    else if (item.startsWith("createtime")) dataFormat.createtime=item.substring(index);
+                    else if (item.startsWith("user")) dataFormat.user=item.substring(index);
+                })
+                this.po = dataFormat;
+                $.ajax({
+                    url: '../detail/getDetail',
+                    contentType:"application/x-www-form-urlencoded; charset=utf-8",
+                    data: {id:dataFormat.id},
+                    type: 'POST',
+                    success: function (data) {
+                        app.poDetails = data;
+                    }.bind(this)
+                });
+            },
+            reload:function () {
+                window.location.href="../detail/getAddPoPage";
+            },
+            more:function () {
+                window.location.href="../detail/getPoAndDetailPage";
+            }
+        }
+    })
+</script>
+</html>

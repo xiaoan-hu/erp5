@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+    <link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+    <script src="/page/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/page/elementUI/element-min.js"></script>
+    <script src="/page/js/jquery.min.js"></script>
+    <title>新增订单</title>
+</head>
+<body>
+<div id="addPo" style="margin: 3%">
+    <el-dialog :visible.sync="dialogVisible"
+            title="商品查询" width="85%" center>
+        <table style="height: 60%;margin: 2%">
+            <tr>
+                <td><span style="margin-right: 10px">渠道选择：</span></td>
+                <td>
+                    <el-select v-model="category" multiple placeholder="请选择" style="margin-right: 20px">
+                        <el-option
+                                v-for="item in categoryOption"
+                                :key="item.id"
+                                :label="item.categoryname"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </td>
+
+                <td><span style="margin-right: 10px">商品名称：</span></td>
+                <td>
+                    <el-input placeholder="请输入查询商品名称" v-model="goodTitle"
+                              style="width: 250px;margin-right: 10px" clearable></el-input>
+                </td>
+                <td><el-button size="big" style="margin-right: 10px" @click="refreshGoods()">查询</el-button></td>
+            </tr>
+        </table>
+
+        <div style="height: 60%;margin: 2%">
+            <el-table :data="showGood" tooltip-effect="dark" style="width:900px" @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="50"></el-table-column>
+                <el-table-column type="index" width="50"></el-table-column>
+                <el-table-column prop="title" label="商品名称" width="200"></el-table-column>
+                <el-table-column prop="introduction" label="商品描述" width="320"> </el-table-column>
+                <el-table-column prop="price" label="价格"> </el-table-column>
+                <el-table-column prop="qty" label="库存"> </el-table-column>
+                <el-table-column prop="intrans" label="在途数量"></el-table-column>
+            </el-table>
+        </div>
+
+        <el-button type="primary" @click="selectGood()">确 定</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+
+    </el-dialog>
+
+    <h3>采购单：</h3>
+    <el-button size="big" style=":10px" @click="commitPo">确认订单</el-button>
+    <el-table :data="tableData" size="mediumargin-topm" highlight-current-row border style="width: 94%;margin-top: 15px"
+              class="el-tb-edit" ref="demoTable">
+                    <el-table-column type="index" label="序号" width="50"></el-table-column>
+
+                    <el-table-column prop="title" label="商品名称" width="380">
+                        <template scope="scope">
+                            <el-input @click.native="scope.row.title == '' ? openDialog():''" size="mini"
+                                      v-model="scope.row.title" placeholder="商品名称" readonly></el-input>
+<!--                            <span>{{scope.row.title}}</span>-->
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="qty" label="采购数量" width="180">
+                        <template scope="scope">
+                            <el-input size="mini" v-model="scope.row.qty" placeholder="数量"></el-input>
+<!--                            <span>{{scope.row.qty}}</span>-->
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="price" label="价格" width="180">
+                        <template scope="scope">
+                            <el-input size="mini" v-model="scope.row.price" placeholder="价格"></el-input>
+<!--                            <span>{{scope.row.price}}</span>-->
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="totalPrice" label="小计(元)" width="250">
+                        <template scope="scope">
+                                <span>{{scope.row.qty*scope.row.price}}</span>
+                            </template>
+                    </el-table-column>
+
+                    <el-table-column label="删除">
+                        <template slot-scope="scope">
+                            <el-input size="mini" type="hidden" v-model="scope.row.id" placeholder="商品名称" readonly></el-input>
+                            <el-button size="mini" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+    <el-button size="big" style="margin-top:15px;margin-right: 20px" @click="addDemo()">新增 +</el-button>
+
+</div>
+<script src="/page/js/addPo.js"></script>
+</body>
+</html>

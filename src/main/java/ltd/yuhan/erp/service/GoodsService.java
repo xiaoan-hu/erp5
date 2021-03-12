@@ -2,17 +2,20 @@ package ltd.yuhan.erp.service;
 
 
 import ltd.yuhan.erp.mapper.*;
-import ltd.yuhan.erp.model.Goods;
-import ltd.yuhan.erp.model.PoDetail;
-import ltd.yuhan.erp.model.WarehouseIn;
-import ltd.yuhan.erp.model.WarehouseOut;
+import ltd.yuhan.erp.model.*;
+import ltd.yuhan.erp.model.vo.GoodsInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Component
@@ -28,8 +31,8 @@ public class GoodsService {
 	@Autowired
 	private PoDetailMapper poDetailMapper;
 	
-//	@Autowired
-//	private GoodsCategoryMapper categoryMapper;
+	@Autowired
+	private GoodsCategoryMapper categoryMapper;
 	
 //
 //	public List<Goods> getGoodsListByPage(int pageSize, int pageNo){
@@ -95,7 +98,36 @@ public class GoodsService {
 		return goodsMapper.selectByTitileAndCategory(goodTitle,categorys);
 	}
 
+	public Map<String, Map<String, GoodsInfoVo[]>> getGoodsInfoVo(){
+		List<Goods> goods = goodsMapper.selectAll();
 
+		Map<String, Map<String, GoodsInfoVo[]>> goodsInfoVo = new HashMap<>();
+		Map<String, List<GoodsInfoVo>> infoVoList = new HashMap<>();
+		//
+		List<GoodsCategory> categories = categoryMapper.selectAll();
+		// 所有的产品vo
+		List<GoodsInfoVo> vos = new ArrayList<>();
+		goodsInfoVo.put("all", new HashMap<>());
+		for (GoodsCategory category : categories){
+			goodsInfoVo.put("gc" + category.getId(),new HashMap<>());
+			infoVoList.put("gc" + category.getId(),new ArrayList<>());
+		}
+		for(Goods good:goods){
+			GoodsInfoVo vo = new GoodsInfoVo(good);
+			vo.setQty(getGoodsQty(good.getId()));
+			vo.setIntrans(getGoodsInTrans(good.getId()));
+			vos.add(vo);
+			goodsInfoVo.get("all").put("t"+String.valueOf(good.getId()),new GoodsInfoVo[]{vo});
+			goodsInfoVo.get("gc"+good.getCategoryid()).put("t"+String.valueOf(good.getId()),new GoodsInfoVo[]{vo});
+			infoVoList.get("gc"+good.getCategoryid()).add(vo);
+		}
+
+		for (String key : infoVoList.keySet()){
+			goodsInfoVo.get(key).put("all",infoVoList.get(key).toArray(new GoodsInfoVo[infoVoList.get(key).size()]));
+		}
+		goodsInfoVo.get("all").put("all",vos.toArray(new GoodsInfoVo[vos.size()]));
+		return goodsInfoVo;
+	}
 
 	//根据id查询库存量
 
