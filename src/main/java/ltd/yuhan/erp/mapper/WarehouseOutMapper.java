@@ -18,5 +18,5 @@ public interface WarehouseOutMapper {
 
     int updateByPrimaryKey(WarehouseOut record);
 
-    List<WarehouseOut> selectByGoodsId(Integer goodsId);
+    List<WarehouseOut> selectByGoodsId(long goodsId);
 }

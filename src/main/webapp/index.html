@@ -19,6 +19,7 @@
 		.searchTd{
 			padding-right: 25px;
 		}
+		.gpic{width:100px;height:100px;text-align:center;vertical-align:middle;}
 	</style>
 </head>
 <body>
@@ -54,16 +55,17 @@
 		</table>
 	</div>
 	<div>
-	<el-table :data="goods" border style="width: 94%;margin-left: 3%;margin-top: 2%;">
+	<el-table :data="goods"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
+		<el-table-column type="index" width="50"></el-table-column>
 		<el-table-column label="商品名称" prop="title"></el-table-column>
 		<el-table-column label="商品描述" prop="introduction"></el-table-column>
-		<el-table-column label="价格" prop="price"></el-table-column>
-		<el-table-column label="长(cm)" prop="longer"></el-table-column>
-		<el-table-column label="宽(cm)" prop="wide"></el-table-column>
-		<el-table-column label="高(cm)" prop="high"></el-table-column>
-		<el-table-column label="重量(g)" prop="weight"></el-table-column>
-		<el-table-column label="库存" prop="quantity"></el-table-column>
-		<el-table-column label="在途数量" prop="intrans"></el-table-column>
+<!--		<el-table-column label="价格" prop="price"></el-table-column>-->
+<!--		<el-table-column label="长(cm)" prop="longer"></el-table-column>-->
+<!--		<el-table-column label="宽(cm)" prop="wide"></el-table-column>-->
+<!--		<el-table-column label="高(cm)" prop="high"></el-table-column>-->
+<!--		<el-table-column label="重量(g)" prop="weight"></el-table-column>-->
+		<el-table-column label="库存" prop="quantity" width="50"></el-table-column>
+		<el-table-column label="在途数量" prop="intrans" width="50"></el-table-column>
 
 
 	</el-table>

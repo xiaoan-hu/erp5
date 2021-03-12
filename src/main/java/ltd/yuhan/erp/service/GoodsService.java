@@ -47,7 +47,7 @@ public class GoodsService {
 //	}
 	
 
-	public Goods getGoods(int id) {
+	public Goods getGoods(long id) {
 		return goodsMapper.selectByPrimaryKey(id);
 	}
 
@@ -57,7 +57,7 @@ public class GoodsService {
 
 
 	//根据goodId查询库存数量
-	public int getGoodsQty (int goodsId){
+	public int getGoodsQty (long goodsId){
 		int goodQty = 0;
 		List<WarehouseIn> warehouseIns = warehouseInMapper.selectByGoodsId(goodsId);
 		for (WarehouseIn in:warehouseIns
@@ -78,7 +78,7 @@ public class GoodsService {
 
 	//根据goodsId查询在途未到货商品数量
 	//Po 状态是0的
-	public int getGoodsInTrans (int goodsId){
+	public int getGoodsInTrans (long goodsId){
 		int goodsQty = 0;
 		List<PoDetail> poDetails = poDetailMapper.selectPoDetailByGoodsId(goodsId);
 		for (PoDetail p:poDetails

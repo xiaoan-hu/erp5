@@ -17,4 +17,6 @@ public class WarehouseOut {
 
     private Date createtime;
 
+    private Integer status;
+
 }

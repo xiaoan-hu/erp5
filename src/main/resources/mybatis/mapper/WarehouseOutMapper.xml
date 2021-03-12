@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.WarehouseOut">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="orderId" jdbcType="INTEGER" property="orderid" />
-    <result column="goodsId" jdbcType="INTEGER" property="goodsid" />
+    <result column="goodsId" jdbcType="BIGINT" property="goodsid" />
     <result column="qty" jdbcType="INTEGER" property="qty" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from WarehouseOut
@@ -14,9 +15,9 @@
   </delete>
   <insert id="insert" parameterType="ltd.yuhan.erp.model.WarehouseOut">
     insert into WarehouseOut (id, orderId, goodsId, 
-      qty, createTime)
+      qty, createTime, status)
     values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, 
-      #{qty,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
+      #{qty,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.WarehouseOut">
     update WarehouseOut
@@ -24,21 +25,22 @@
       goodsId = #{goodsid,jdbcType=INTEGER},
       qty = #{qty,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP}
+      status = #{status,jdbcType=INTEGER},
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, orderId, goodsId, qty, createTime
+    select id, orderId, goodsId, qty, createTime, status
     from WarehouseOut
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, orderId, goodsId, qty, createTime
+    select id, orderId, goodsId, qty, createTime, status
     from WarehouseOut
   </select>
-  <select id="selectByGoodsId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  select id, orderId, goodsId, qty, createTime
+  <select id="selectByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select id, orderId, goodsId, qty, createTime, status
   from WarehouseOut
-  where goodsId = #{goodsId,jdbcType=INTEGER}
+  where goodsId = #{goodsId,jdbcType=BIGINT}
   </select>
 
 </mapper>

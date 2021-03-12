@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Goods {
-    private Integer id;
+    private Long id;
 
     private String title;
 

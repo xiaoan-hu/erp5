@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Mapper
 public interface GoodsMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Goods record);
 
-    Goods selectByPrimaryKey(Integer id);
+    Goods selectByPrimaryKey(Long id);
 
     List<Goods> selectAll();
 

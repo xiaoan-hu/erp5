@@ -20,7 +20,7 @@ public interface PoDetailMapper {
 
     int updateByPrimaryKey(PoDetail record);
 
-    List<PoDetail> selectPoDetailByGoodsId(Integer goodsId);
+    List<PoDetail> selectPoDetailByGoodsId(long goodsId);
 
     List<Map> getPoDetail(String goodTitle, String[] categorys);
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ltd.yuhan.erp.mapper.GoodsMapper">
   <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.Goods">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="picture" jdbcType="CHAR" property="picture" />
     <result column="price" jdbcType="DECIMAL" property="price" />
@@ -15,16 +15,16 @@
     <result column="high" jdbcType="DECIMAL" property="high" />
     <result column="weight" jdbcType="DECIMAL" property="weight" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Goods
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="ltd.yuhan.erp.model.Goods">
     insert into Goods (id, title, picture, 
       price, introduction, categoryId, 
       lastEditBy, lastEditTime, longer, 
       wide, high, weight)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{picture,jdbcType=CHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{picture,jdbcType=CHAR},
       #{price,jdbcType=DECIMAL}, #{introduction,jdbcType=VARCHAR}, #{categoryid,jdbcType=INTEGER}, 
       #{lasteditby,jdbcType=VARCHAR}, #{lastedittime,jdbcType=TIMESTAMP}, #{longer,jdbcType=DECIMAL}, 
       #{wide,jdbcType=DECIMAL}, #{high,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL})
@@ -42,13 +42,13 @@
       wide = #{wide,jdbcType=DECIMAL},
       high = #{high,jdbcType=DECIMAL},
       weight = #{weight,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id, title, picture, price, introduction, categoryId, lastEditBy, lastEditTime, 
     longer, wide, high, weight
     from Goods
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, title, picture, price, introduction, categoryId, lastEditBy, lastEditTime, 

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.WarehouseIn">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="poId" jdbcType="INTEGER" property="poid" />
-    <result column="goodsId" jdbcType="INTEGER" property="goodsid" />
+    <result column="goodsId" jdbcType="BIGINT" property="goodsid" />
     <result column="qty" jdbcType="INTEGER" property="qty" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
@@ -35,9 +35,9 @@
     select id, poId, goodsId, qty, createTime
     from WarehouseIn
   </select>
-  <select id="selectByGoodsId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
   select id, poId, goodsId, qty, createTime
   from WarehouseIn
-  where goodsId = #{goodsId,jdbcType=INTEGER}
+  where goodsId = #{goodsId,jdbcType=BIGINT}
   </select>
 </mapper>
