@@ -64,11 +64,6 @@ let app = new Vue({
                     param.push("status="+app.form.status);
                 }
             }
-            if (app.form.status==0){
-                param.push("status="+app.form.status);
-                // console.log("status == 0")
-            }
-
             if(param.length>0) url = url+"?";
             for (let i=0;i<param.length-1;i++){
                 url=url+param[i].concat("&");

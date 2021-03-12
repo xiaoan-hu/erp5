@@ -63,10 +63,9 @@ var app = new Vue({
             }
         },
         handleSelectionChange:function (val) {
-            app.tableData=val;
+            app.tableData = val;
         },
         selectGood:function () {
-            // app.tableData=[];
             app.selectedGood.map(function (item) {
                 let d = {
                     title: item.title,
