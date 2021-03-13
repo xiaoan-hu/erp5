@@ -31,6 +31,7 @@ var app = new Vue({
                 }.bind(this)
             });
         },
+        // 取到所有商品
         getAllGoods:function(){
             $.ajax({
                 url: '/mvc/goodInfoVo',
@@ -49,6 +50,7 @@ var app = new Vue({
             app.tableData.splice(index, 1);
             app.selectGoodsId = app.selectGoodsId.replace("_id"+row.id,"");
         },
+        // 添加行数
         addDemo() {
             let d = {
                 title: '',
@@ -58,12 +60,17 @@ var app = new Vue({
             };
             app.tableData.push(d);
         },
+        // dialog开关
         openDialog:function(){
             if (app.dialogVisible){
                 app.dialogVisible=false
             }else {
                 app.dialogVisible=true;
             }
+        },
+        // 拼接图片路径
+        getImgUrl(picture){
+            return "http://cbu01.alicdn.com/"+picture;
         },
         // 确定选中商品
         selectGood:function () {

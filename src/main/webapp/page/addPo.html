@@ -14,8 +14,8 @@
 <body>
 <div id="addPo" style="margin: 3%">
     <el-dialog :visible.sync="dialogVisible" :before-close="closeGoodsDialog"
-            title="商品查询" width="65%" center>
-        <table style="height: 60%;margin: 2%">
+            title="商品查询" width="70%" center>
+        <table style="height: 75%;margin: 2%;">
             <tr>
                 <td><span style="margin-right: 10px">渠道选择：</span></td>
                 <td>
@@ -38,24 +38,23 @@
             </tr>
         </table>
 
-        <div style="height: 60%;margin: 2%">
+        <div style="height: 60%;margin: 1%">
             <el-table :data="showGood.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-
                       :current-page.sync="currentPage"
                       tooltip-effect="dark" ref="multipleTable" @select-all="selectAll"
-                      style="width:900px" @selection-change="handleSelectionChange" @select="onTableSelect">
+                      style="width:100%" @selection-change="handleSelectionChange" @select="onTableSelect">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column label="商品图片" width="250">
+                <el-table-column type="index" label="序号" width="50"></el-table-column>
+                <el-table-column label="商品图片" width="230">
                     <template scope="scope">
-                        <img v-bind:src="scope.row.picture"/>
+                        <img v-bind:src="getImgUrl(scope.row.picture)"  width="200" height="190"/>
                     </template>
                 </el-table-column>
-                <el-table-column prop="title" label="商品名称" width="200"></el-table-column>
-                <el-table-column prop="introduction" label="商品描述" width="250"> </el-table-column>
-                <el-table-column prop="price" label="价格"> </el-table-column>
-                <el-table-column prop="qty" label="库存"> </el-table-column>
-                <el-table-column prop="intrans" label="在途数量"></el-table-column>
+                <el-table-column prop="title" label="商品名称" width="250"></el-table-column>
+                <el-table-column prop="introduction" label="商品描述" width="230"> </el-table-column>
+                <el-table-column prop="price" label="价格"  width="60"> </el-table-column>
+                <el-table-column prop="qty" label="库存"  width="56"> </el-table-column>
+                <el-table-column prop="intrans" label="在途数量" width="65"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
