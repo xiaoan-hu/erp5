@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ShoppingOrderMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ShoppingOrder record);
 
-    ShoppingOrder selectByPrimaryKey(Integer id);
+    ShoppingOrder selectByPrimaryKey(Long id);
 
     List<ShoppingOrder> selectAll();
 

@@ -8,7 +8,8 @@ import java.util.Date;
 @Setter
 @Getter
 public class ShoppingOrder {
-    private Integer id;
+    //TODO 订单ID要改成long,相关mapper需要修改
+    private Long id;
 
     private String shopper;
 

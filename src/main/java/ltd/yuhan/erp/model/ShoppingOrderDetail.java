@@ -10,9 +10,9 @@ import java.util.Date;
 public class ShoppingOrderDetail {
     private Integer id;
 
-    private Integer shoppingorderid;
+    private Long shoppingorderid;
 
-    private Integer goodsid;
+    private Long goodsid;
 
     private Integer qty;
 
