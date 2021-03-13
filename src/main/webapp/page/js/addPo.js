@@ -12,12 +12,11 @@ var app = new Vue({
             dialogVisible: false,
             poDialogVisible: false,
             goodsInfoVo: [], // 所有的商品信息
-            po: {id:2,qty:3,totalPrice:6}
+            selectGoodsId:''
         }
     },
     mounted: function() {
         this.getCategory();
-
     },
     methods: {
         getCategory: function(){
@@ -44,7 +43,7 @@ var app = new Vue({
         },
         deleteRow: function (index,row) {
             app.tableData.splice(index, 1);
-            app.selectedGood.splice(index, 1);
+            app.selectGoodsId.replace("_id"+row.id,"");
         },
         addDemo() {
             let d = {
@@ -62,9 +61,6 @@ var app = new Vue({
                 app.dialogVisible=true;
             }
         },
-        handleSelectionChange:function (val) {
-            app.tableData = val;
-        },
         selectGood:function () {
             app.selectedGood.map(function (item) {
                 let d = {
@@ -77,6 +73,14 @@ var app = new Vue({
                 app.tableData.push(d);
             });
             app.dialogVisible=false;
+        },
+        handleSelectionChange:function (val) {
+            val.map(function (item) {
+                if (app.selectGoodsId.indexOf("_id"+item.id) == -1){
+                    app.selectGoodsId = app.selectGoodsId + "_id"+item.id;
+                    app.tableData.push(item);
+                }
+            })
         },
         refreshGoods:function () {
             app.showGood=[];
