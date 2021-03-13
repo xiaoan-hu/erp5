@@ -15,31 +15,75 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="ltd.yuhan.erp.model.Po">
-    insert into Po (id, user, totalQty, 
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into Po (user, totalQty,
       totalPrice, status, createBy, 
-      createTime)
-    values (#{id,jdbcType=INTEGER}, #{user,jdbcType=VARCHAR}, #{totalqty,jdbcType=INTEGER}, 
+      createTime,orderId)
+    values (#{user,jdbcType=VARCHAR}, #{totalqty,jdbcType=INTEGER},
       #{totalprice,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{createby,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP})
+      #{createtime,jdbcType=TIMESTAMP},#{orderId,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.Po">
     update Po
-    set user = #{user,jdbcType=VARCHAR},
-      totalQty = #{totalqty,jdbcType=INTEGER},
-      totalPrice = #{totalprice,jdbcType=DECIMAL},
-      status = #{status,jdbcType=INTEGER},
-      createBy = #{createby,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP}
+    <trim prefix="set" suffixOverrides=",">
+    <if test="user != '' and  user != null">
+        user = #{user,jdbcType=VARCHAR},
+    </if>
+    <if test="totalqty != '' and  totalqty != null">
+        totalQty = #{totalqty,jdbcType=INTEGER},
+    </if>
+    <if test="totalprice != '' and  totalprice != null">
+        totalPrice = #{totalprice,jdbcType=DECIMAL},
+    </if>
+    <if test="status != '' and  status != null">
+        status = #{status,jdbcType=INTEGER},
+    </if>
+    <if test="createby != '' and  createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+    </if>
+    <if test="createtime != '' and  createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="orderId != '' and  orderId != null">
+        orderId = #{orderId,jdbcType=VARCHAR},
+    </if></trim>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user, totalQty, totalPrice, status, createBy, createTime
+    select id, user, totalQty, totalPrice, status, createBy, createTime,orderId
     from Po
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, user, totalQty, totalPrice, status, createBy, createTime
+    select id, user, totalQty, totalPrice, status, createBy, createTime,orderId
     from Po
   </select>
 
+  <select id="getPoByTerm"  resultMap="BaseResultMap">
+    SELECT
+    DISTINCT(p.id),p.orderId, p.user, p.totalQty, p.totalPrice, p.status, p.createBy, p.createTime
+    FROM
+    po p,
+    podetail d,
+    goods g
+    WHERE
+    d.poId = p.id
+    AND g.id = d.goodsId
+    <if test="orderId != '' and  orderId != null">
+      AND p.orderId LIKE CONCAT('%', #{orderId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="category != null and category != '' ">
+      and g.categoryId =  #{category,jdbcType=INTEGER}
+    </if>
+    <if test="goodsTitle != '' and  goodsTitle != null">
+      AND g.title LIKE CONCAT('%', #{goodsTitle,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="status != null and status != '' ">
+      and p.status = #{status,jdbcType=INTEGER}
+    </if>
+    ORDER BY
+    p.createTime ASC
+  </select>
 </mapper>

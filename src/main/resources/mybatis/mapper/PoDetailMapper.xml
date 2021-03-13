@@ -14,10 +14,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="ltd.yuhan.erp.model.PoDetail">
-    insert into PoDetail (id, poId, goodsId, 
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into PoDetail (poId, goodsId,
       qty, totalPrice, createTime
       )
-    values (#{id,jdbcType=INTEGER}, #{poid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, 
+    values (#{poid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER},
       #{qty,jdbcType=INTEGER}, #{totalprice,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -45,21 +48,24 @@
     from PoDetail d join Po p on d.poId = p.id where d.goodsId = #{goodsId,jdbcType=INTEGER} and p.status = 0
   </select>
 
-  <select id="getPoDetail" resultType="java.util.Map">
-    select p.id,g.title,p.qty,g.price,p.totalPrice from poDetail p ,
-    (select * from goods gg where 1=1
-        <if test="goodTitle != ''">
-            and gg.title like CONCAT('%', #{goodTitle,jdbcType=VARCHAR},'%')
-        </if>
-        <if test="categorys != null and categorys.length>0 ">
-            and gg.categoryId in
-            <foreach collection="categorys" item="item" index="index" open="(" separator="," close=")">
-              #{item}
-            </foreach>
-        </if>
-            ) g
-            where p.goodsId = g.id
-            order by p.id;
+  <select id="selectPoDetailByPoId" resultType="java.util.Map">
+    SELECT
+        DISTINCT(d.id),
+        d.poId,
+        d.goodsId,
+        g.title,
+        d.qty,
+        d.totalPrice,
+        concat(TRUNCATE (d.totalprice / d.qty, 2)) AS price,
+        d.createtime
+    FROM
+        PoDetail d,
+        goods g,
+        warehousein i
+    WHERE
+        g.id = d.goodsId
+        AND d.poId = #{poId,jdbcType=INTEGER}
+        ORDER BY d.createTime ASC
   </select>
 
 </mapper>

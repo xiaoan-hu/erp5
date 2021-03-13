@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+    <link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+    <script src="/page/js/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="/page/elementUI/element-min.js"></script>
+    <script src="/page/js/jquery.min.js"></script>
+    <title>采购单查询</title>
+</head>
+<body>
+<div id="poAndDetail">
+    <el-dialog :visible.sync="dialogVisible"
+               title="确认收货" width="85%" center :before-close="handleClose">
+        <h3>订单编号：{{selectedOrderId}}</h3>
+        <el-table :data="selectedDetails"  ref="multipleTable"
+                  @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column label="序号" type="index">
+                </el-table-column>
+                <el-table-column label="商品名称" prop="title">
+                </el-table-column>
+                <el-table-column label="应收数量" prop="qty">
+                </el-table-column>
+                <el-table-column label="已收数量" prop="received">
+                </el-table-column>
+                <el-table-column label="到货数量">
+                    <template scope="scope">
+                        <div  v-if="scope.row.received < scope.row.qty">
+                            <el-input-number
+                                    v-model="scope.row.overQty"
+                                    size="small"
+                                    :min="0"
+                            />
+                        </div>
+                        <div v-else><span>商品全部到货</span></div>
+                    </template>
+                </el-table-column>
+        </el-table>
+        <el-button style="margin-top: 10px" @click="checkReceive()" type="primary" plain>确认收货</el-button>
+    </el-dialog>
+    <div style="border:black solid 1px;margin:2%;width: 95%">
+        <h3 style="margin-left: 55px;margin-bottom: 30px;margin-top: 30px">条件筛选</h3>
+        <el-form :inline="true" ref="form" :model="form" label-width="120px" style="margin: 2%">
+            <el-form-item label="订单编号：">
+                <el-input v-model="form.orderId"
+                          style="width: 220px" clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label="商品名称：">
+                <el-input v-model="form.title"
+                          style="width: 220px" clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label="渠道：">
+                <el-select v-model="form.category" placeholder="请选择渠道" clearable>
+                    <el-option v-for="item in categoryOption" :key="item.id" :label="item.categoryname"
+                               :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item label="状态：">
+                <el-select v-model="form.status" placeholder="请选择" clearable>
+                    <el-option v-for="item in statusOption" :key="item.id" :label="item.name"
+                               :value="item.id"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item>
+                <el-button style="margin-left: 40px" type="primary" @click="getPoAndDetail()">查询</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+    <div>
+        <template>
+            <el-table :data="pos" style="width: 100%">
+                <el-table-column type="index">
+                <el-table-column type="expand">
+
+                    <template slot-scope="props">
+                        <el-table :data="props.row.poDetails"
+                                  style="width: 100%;font-size: 12px">
+                            <el-table-column label="序号" type="index">
+                            </el-table-column>
+                            <el-table-column label="商品名称" prop="title">
+                            </el-table-column>
+                            <el-table-column label="单价" prop="price">
+                            </el-table-column>
+                            <el-table-column label="采购数量" prop="qty">
+                            </el-table-column>
+                            <el-table-column label="到货数量" prop="received">
+                            </el-table-column>
+                            <el-table-column label="小计" prop="totalPrice">
+                            </el-table-column>
+                        </el-table>
+                    </template>
+
+                </el-table-column>
+                <el-table-column label="订单编号" prop="orderId">
+                </el-table-column>
+                <el-table-column label="总数" prop="totalqty">
+                </el-table-column>
+                <el-table-column label="总计" prop="totalprice">
+                </el-table-column>
+                <el-table-column label="下单时间" prop="createtime">
+                    <templatev slot-scope="scope">
+                        {{scope.row.createtime.replace("T"," ").replace(".000+00:00","")}}
+                    </templatev>
+                </el-table-column>
+                <el-table-column label="采购员" prop="user">
+                </el-table-column>
+                <el-table-column label="订单状态" prop="status">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.status == 0">未收货</span>
+                        <span v-if="scope.row.status == 1">部分收货，相符</span>
+                        <span v-if="scope.row.status == 2">部分收货，不相符</span>
+                        <span v-if="scope.row.status == 3">已完结</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template v-if="scope.row.status != 3" slot-scope="scope">
+                        <el-button size="mini" @click="takeOver(scope.row)">收货
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+    </div>
+</div>
+
+<script src="/page/js/poAndDetail.js"></script>
+</body>
+</html>

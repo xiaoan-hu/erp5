@@ -13,7 +13,7 @@ public class PoDetail {
 
     private Integer poid;
 
-    private Integer goodsid;
+    private long goodsid;
 
     private Integer qty;
 
@@ -21,5 +21,9 @@ public class PoDetail {
 
     private Date createtime;
 
+    public PoDetail(){
+        this.totalprice = BigDecimal.ZERO;
+        this.qty = 0;
+    }
 
 }

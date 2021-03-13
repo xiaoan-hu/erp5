@@ -5,7 +5,7 @@ import ltd.yuhan.erp.model.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
+@Component
 @Mapper
 public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);

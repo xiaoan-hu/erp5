@@ -11,7 +11,7 @@ public class WarehouseIn {
 
     private Integer poid;
 
-    private Integer goodsid;
+    private Long goodsid;
 
     private Integer qty;
 

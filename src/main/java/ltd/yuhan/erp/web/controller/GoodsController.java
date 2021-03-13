@@ -2,15 +2,12 @@ package ltd.yuhan.erp.web.controller;
 
 
 
-import com.sun.tools.javac.util.Convert;
 import ltd.yuhan.erp.model.Goods;
+import ltd.yuhan.erp.model.vo.GoodsInfoVo;
 import ltd.yuhan.erp.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,5 +54,18 @@ public class GoodsController {
         }
 
         return returnList;
+    }
+
+
+    @GetMapping(value = "/goodInfoVo")
+    @ResponseBody
+    public Map<String,Map<String, GoodsInfoVo[]>> getGoodsInfoVo() {
+        return goodsService.getGoodsInfoVo();
+    }
+
+    @RequestMapping(value = "/refreshGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Goods> getRefreshGoodsGoodsInfoVo(String category, String title) {
+        return goodsService.getGoodsByTitileAndCategory(title,category);
     }
 }
