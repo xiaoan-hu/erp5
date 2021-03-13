@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import ltd.yuhan.erp.model.GoodsCategory;
 import ltd.yuhan.erp.model.vo.GoodsInfoVo;
-import ltd.yuhan.erp.model.vo.PoDetailVo;
 import ltd.yuhan.erp.model.vo.PoVo;
 import ltd.yuhan.erp.service.PoService;
 import org.springframework.beans.factory.annotation.Autowired;
