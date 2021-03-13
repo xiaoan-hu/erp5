@@ -39,6 +39,7 @@ public class GoodsController {
         for (Goods goods: goodsAllList
              ) {
             Map<String,String> returnMap= new HashMap<>();
+            returnMap.put("picture","http://cbu01.alicdn.com/"+goods.getPicture());
             returnMap.put("title",goods.getTitle());
             returnMap.put("introduction",goods.getIntroduction());
             returnMap.put("price",goods.getPrice().toString());
