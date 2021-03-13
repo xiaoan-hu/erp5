@@ -2,17 +2,19 @@ var app = new Vue({
     el: '#addPo',
     data: function() {
         return {
+            currentPage:1,      // 当前页码
+            pagesize:10,      // 每页10条数据
+            total:0,        // 商品查询数据的总条数
             goodTitle: '',  // 想查询的商品名称
             category: null,  // 选择的渠道
-            categoryOption: [],
-            tableData: [],
-            goodData: [],
+            categoryOption: [], //渠道选项
+            tableData: [],  // 已选择商品并设置数量和采购价
+            filterData: [], // 选择商品过滤对象
             showGood: [], // 经筛选的商品信息
             selectedGood: [],  // 选择的商品信息
-            dialogVisible: false,
-            poDialogVisible: false,
+            dialogVisible: false, // 对话框展示
             goodsInfoVo: [], // 所有的商品信息
-            selectGoodsId:''
+            selectGoodsId: ''
         }
     },
     mounted: function() {
@@ -37,13 +39,15 @@ var app = new Vue({
                     app.goodsInfoVo = data;
                     if(app.category == null){
                         app.showGood = data.all.all;
+                        app.total = app.showGood.length;
                     }
                 }.bind(this)
             });
         },
+        // 删除 row
         deleteRow: function (index,row) {
             app.tableData.splice(index, 1);
-            app.selectGoodsId.replace("_id"+row.id,"");
+            app.selectGoodsId = app.selectGoodsId.replace("_id"+row.id,"");
         },
         addDemo() {
             let d = {
@@ -61,27 +65,86 @@ var app = new Vue({
                 app.dialogVisible=true;
             }
         },
+        // 确定选中商品
         selectGood:function () {
-            app.selectedGood.map(function (item) {
-                let d = {
-                    title: item.title,
-                    qty: 0,
-                    price: 0,
-                    totalPrice: 0,
-                    id:item.id
-                };
-                app.tableData.push(d);
+            app.filterData.map(function (item) {
+                if(app.tableData[app.tableData.length-1].title==''){
+                    app.tableData.pop();
+                }
+                app.tableData.push(item);
+                app.toggleSelection();
             });
             app.dialogVisible=false;
+            app.filterData = [];
+            // 清除筛选和页码
+            app.closeGoodsDialog();
         },
+        // 关闭选择商品
+        closeGoodsDialog:function(){
+            app.dialogVisible=false;
+            app.showGood = app.goodsInfoVo.all.all;
+            app.currentPage = 1;
+            app.total = app.showGood.length;
+        },
+        //
         handleSelectionChange:function (val) {
-            val.map(function (item) {
+            app.multipleSelection = val;
+        },
+        // 检测当前页码
+        handleCurrentChange:function(val){
+            app.currentPage = val;
+        },
+        // 取消所有选择
+        toggleSelection(rows) {
+            if (rows) {
+                rows.forEach(row => {
+                    this.$refs.multipleTable.toggleRowSelection(row);
+                });
+            } else {
+                this.$refs.multipleTable.clearSelection();
+            }
+        },
+        //选中所有产品
+        selectAll:function(rows){
+            let titles = '';
+            let hadGoods = [];
+            let num = 1;
+            rows.map(function (item,index) {
                 if (app.selectGoodsId.indexOf("_id"+item.id) == -1){
                     app.selectGoodsId = app.selectGoodsId + "_id"+item.id;
-                    app.tableData.push(item);
+                    app.filterData.push(item);
+                }else{
+                    hadGoods.push(item);
+                    titles =titles+"\n"+num+"、"+item.title;
+                    num++;
                 }
-            })
+          })
+            if (hadGoods.length>0) {
+                alert("商品：" + titles + "\n已选择！")
+                hadGoods.map(function (item) {
+                    app.$refs.multipleTable.toggleRowSelection(item);
+                })
+            }
         },
+        // 点击CheckBox判断是选中或者取消
+        onTableSelect:function(rows, row){
+            let selected = rows.length && rows.indexOf(row) !== -1
+            if (selected){
+                if (app.selectGoodsId.indexOf("_id"+row.id)!=-1){
+                    this.$refs.multipleTable.toggleRowSelection(row);
+                    alert("商品已选择");
+                }else{
+                    app.filterData.push(row);
+                    app.selectGoodsId = app.selectGoodsId + "_id"+row.id;
+                }
+            }else if (selected==false||selected==0){
+                app.selectGoodsId = app.selectGoodsId.replace("_id"+row.id,"");
+                app.filterData.map(function (item,index) {
+                    if (item.id = row.id) app.filterData.splice(index,1);
+                })
+            }
+        },
+        // 进行数据查询
         refreshGoods:function () {
             app.showGood=[];
             let categorys='';
@@ -90,7 +153,6 @@ var app = new Vue({
                     categorys=categorys+item+",";
                 })
             }
-            let goods= [];
             $.ajax({
                 url: '/mvc/refreshGoods',
                 type: 'POST',
@@ -98,10 +160,11 @@ var app = new Vue({
                 contentType:"application/x-www-form-urlencoded; charset=utf-8",
                 dataType:"json",
                 success: function (data) {
-                    goods=data;
-                    goods.map(function (item) {
+                    app.currentPage = 1;
+                    data.map(function (item) {
                         let url = "app.goodsInfoVo.gc".concat(item.categoryid,".t",item.id,"[0]");
                         app.showGood.push(eval(url));
+                        app.total = app.showGood.length;
                     })
                 }.bind(this)
             });
