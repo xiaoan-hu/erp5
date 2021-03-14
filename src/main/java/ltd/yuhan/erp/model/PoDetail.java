@@ -1,5 +1,6 @@
 package ltd.yuhan.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class PoDetail {
 
     private BigDecimal totalprice;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createtime;
 
     public PoDetail(){

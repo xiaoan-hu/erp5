@@ -185,7 +185,6 @@ var app = new Vue({
                 dataType:"json",
                 data: {selectedGood : JSON.stringify(app.tableData)},
                 success: function (data) {
-                    data.createtime = data.createtime.replace("T"," ").replace("+00:00","");
                     window.location.href="../page/poSuccess.html?orderId="+data.orderId+"&id="+data.id+"&totalprice="+data.totalprice+"&price="+data.price
                     +"&totalqty="+data.totalqty+"&createtime="+data.createtime+"&user="+data.user;
                 }.bind(this)

@@ -1,5 +1,6 @@
 package ltd.yuhan.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class Goods {
 
     private String lasteditby;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date lastedittime;
 
     private BigDecimal longer;

@@ -108,7 +108,7 @@
                 </el-table-column>
                 <el-table-column label="下单时间" prop="createtime">
                     <templatev slot-scope="scope">
-                        {{scope.row.createtime.replace("T"," ").replace(".000+00:00","")}}
+                        {{scope.row.createtime}}
                     </templatev>
                 </el-table-column>
                 <el-table-column label="采购员" prop="user">
