@@ -1,6 +1,6 @@
 package ltd.yuhan.erp.model.vo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import ltd.yuhan.erp.model.PoDetail;
@@ -18,6 +18,7 @@ public class PoDetailVo {
     private long goodsid;
     private Integer qty;
     private BigDecimal totalprice;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createtime;
     public PoDetailVo(){}
     public PoDetailVo(PoDetail pd){

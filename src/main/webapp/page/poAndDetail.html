@@ -77,12 +77,11 @@
 
     <div>
         <template>
-            <el-table :data="pos" style="width: 100%">
-                <el-table-column type="index">
-                <el-table-column type="expand">
+            <el-table :data="pos.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%">
+                <el-table-column type="expand" label="详情">
 
                     <template slot-scope="props">
-                        <el-table :data="props.row.poDetails"
+                        <el-table :data="props.row.poDetails.slice(0,5)"
                                   style="width: 100%;font-size: 12px">
                             <el-table-column label="序号" type="index">
                             </el-table-column>
@@ -100,6 +99,7 @@
                     </template>
 
                 </el-table-column>
+                <el-table-column label="序号" type="index"></el-table-column>
                 <el-table-column label="订单编号" prop="orderId">
                 </el-table-column>
                 <el-table-column label="总数" prop="totalqty">
@@ -108,7 +108,7 @@
                 </el-table-column>
                 <el-table-column label="下单时间" prop="createtime">
                     <templatev slot-scope="scope">
-                        {{scope.row.createtime.replace("T"," ").replace(".000+00:00","")}}
+                        {{scope.row.createtime}}
                     </templatev>
                 </el-table-column>
                 <el-table-column label="采购员" prop="user">
@@ -128,6 +128,14 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="pagination">
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        :page-size="pagesize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
         </template>
     </div>
 </div>
