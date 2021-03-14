@@ -40,4 +40,23 @@
     from ShoppingOrderDetail
   </select>
 
+  <select id="selectSoDetailBySoId" resultType="java.util.Map">
+    SELECT
+        DISTINCT(d.id),
+        d.shoppingOrderId,
+        d.goodsId,
+        g.title,
+        d.qty,
+        d.totalPrice,
+        concat(TRUNCATE (d.totalprice / d.qty, 2)) AS price,
+        d.createtime
+    FROM
+        ShoppingOrderDetail d,
+        goods g
+    WHERE
+        g.id = d.goodsId
+        AND d.shoppingOrderId = #{soId,jdbcType=BIGINT}
+        ORDER BY d.createTime ASC
+  </select>
+
 </mapper>

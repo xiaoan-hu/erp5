@@ -32,7 +32,7 @@ public class GoodsListTest {
         goods.setWide(BigDecimal.valueOf(0));
         goods.setHigh(BigDecimal.valueOf(0));
         goods.setWeight(BigDecimal.valueOf(0));
-        //用来存放抓出来的商品类辊
+        //用来存放抓出来的商品类别
         GoodsCategory goodsCategory = new GoodsCategory();
 
         //设置appkey和密钥(seckey)

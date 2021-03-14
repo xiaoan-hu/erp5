@@ -9,9 +9,9 @@ import java.util.Date;
 public class WarehouseOut {
     private Integer id;
 
-    private Integer orderid;
+    private Long orderid;
 
-    private Integer goodsid;
+    private Long goodsid;
 
     private Integer qty;
 

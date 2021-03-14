@@ -1,6 +1,8 @@
 package ltd.yuhan.erp.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import ltd.yuhan.erp.model.ShoppingOrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +17,6 @@ public interface ShoppingOrderDetailMapper {
     List<ShoppingOrderDetail> selectAll();
 
     int updateByPrimaryKey(ShoppingOrderDetail record);
+
+    List<Map> selectSoDetailBySoId(Long soId);
 }

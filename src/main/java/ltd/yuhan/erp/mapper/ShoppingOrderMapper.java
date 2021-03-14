@@ -1,6 +1,8 @@
 package ltd.yuhan.erp.mapper;
 
 import java.util.List;
+
+import ltd.yuhan.erp.model.Po;
 import ltd.yuhan.erp.model.ShoppingOrder;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +17,6 @@ public interface ShoppingOrderMapper {
     List<ShoppingOrder> selectAll();
 
     int updateByPrimaryKey(ShoppingOrder record);
+
+    List<ShoppingOrder> getShoppingOrderByTerm(String status, String shopper,String goodsTitle, String category,String orderId);
 }

@@ -3,7 +3,7 @@
 <mapper namespace="ltd.yuhan.erp.mapper.WarehouseOutMapper">
   <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.WarehouseOut">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="orderId" jdbcType="INTEGER" property="orderid" />
+    <result column="orderId" jdbcType="BIGINT" property="orderid" />
     <result column="goodsId" jdbcType="BIGINT" property="goodsid" />
     <result column="qty" jdbcType="INTEGER" property="qty" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
@@ -16,13 +16,13 @@
   <insert id="insert" parameterType="ltd.yuhan.erp.model.WarehouseOut">
     insert into WarehouseOut (id, orderId, goodsId, 
       qty, createTime, status)
-    values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=BIGINT}, #{goodsid,jdbcType=BIGINT},
       #{qty,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.WarehouseOut">
     update WarehouseOut
-    set orderId = #{orderid,jdbcType=INTEGER},
-      goodsId = #{goodsid,jdbcType=INTEGER},
+    set orderId = #{orderid,jdbcType=BIGINT},
+      goodsId = #{goodsid,jdbcType=BIGINT},
       qty = #{qty,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP}
       status = #{status,jdbcType=INTEGER},
@@ -41,6 +41,13 @@
   select id, orderId, goodsId, qty, createTime, status
   from WarehouseOut
   where goodsId = #{goodsId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getWarehouseOutByTerm"  resultMap="BaseResultMap">
+  select id, orderId, goodsId, qty, createTime, status
+  from WarehouseOut
+  where goodsId = #{goodsId,jdbcType=BIGINT}
+  AND orderId = #{orderId,jdbcType=BIGINT}
   </select>
 
 </mapper>
