@@ -2,6 +2,9 @@ let app = new Vue({
     el:"#poAndDetail",
     data:function(){
         return {
+            currentPage:1,
+            pagesize:10,
+            total:0,
             form:{
                 title:'',
                 category:'',
@@ -75,6 +78,8 @@ let app = new Vue({
                 type:'GET',
                 success: function (data) {
                     app.pos = data;
+                    app.total = data.length;
+                    app.currentPage = 1;
                 }.bind(this)
             })
         },
@@ -143,6 +148,9 @@ let app = new Vue({
                     done();
                 })
                 .catch(_ => {});
+        },
+        handleCurrentChange:function(val){
+            app.currentPage = val;
         }
     }
 })
