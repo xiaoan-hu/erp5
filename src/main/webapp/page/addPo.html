@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <!-- 引入样式 -->
@@ -13,9 +13,9 @@
 </head>
 <body>
 <div id="addPo" style="margin: 3%">
-    <el-dialog :visible.sync="dialogVisible"
-            title="商品查询" width="85%" center>
-        <table style="height: 60%;margin: 2%">
+    <el-dialog :visible.sync="dialogVisible" :before-close="closeGoodsDialog"
+            title="商品查询" width="70%" center>
+        <table style="height: 75%;margin: 2%;">
             <tr>
                 <td><span style="margin-right: 10px">渠道选择：</span></td>
                 <td>
@@ -38,20 +38,36 @@
             </tr>
         </table>
 
-        <div style="height: 60%;margin: 2%">
-            <el-table :data="showGood" tooltip-effect="dark" style="width:900px" @selection-change="handleSelectionChange">
+        <div style="height: 60%;margin: 1%">
+            <el-table :data="showGood.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+                      :current-page.sync="currentPage"
+                      tooltip-effect="dark" ref="multipleTable" @select-all="selectAll"
+                      style="width:100%" @selection-change="handleSelectionChange" @select="onTableSelect">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column prop="title" label="商品名称" width="200"></el-table-column>
-                <el-table-column prop="introduction" label="商品描述" width="320"> </el-table-column>
-                <el-table-column prop="price" label="价格"> </el-table-column>
-                <el-table-column prop="qty" label="库存"> </el-table-column>
-                <el-table-column prop="intrans" label="在途数量"></el-table-column>
+                <el-table-column type="index" label="序号" width="50"></el-table-column>
+                <el-table-column label="商品图片" width="230">
+                    <template scope="scope">
+                        <img v-bind:src="getImgUrl(scope.row.picture)"  width="200" height="190"/>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="title" label="商品名称" width="250"></el-table-column>
+                <el-table-column prop="introduction" label="商品描述" width="230"> </el-table-column>
+                <el-table-column prop="price" label="价格"  width="60"> </el-table-column>
+                <el-table-column prop="qty" label="库存"  width="56"> </el-table-column>
+                <el-table-column prop="intrans" label="在途数量" width="65"></el-table-column>
             </el-table>
+            <div class="pagination">
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        :page-size="pagesize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
         </div>
 
         <el-button type="primary" @click="selectGood()">确 定</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="closeGoodsDialog">取 消</el-button>
 
     </el-dialog>
 

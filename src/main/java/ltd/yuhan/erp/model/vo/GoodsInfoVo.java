@@ -16,6 +16,7 @@ public class GoodsInfoVo {
     private Integer categoryid;
     private Integer qty;
     private Integer intrans;
+    private String picture;
 
     public GoodsInfoVo(){}
 
@@ -25,6 +26,7 @@ public class GoodsInfoVo {
         this.price = good.getPrice();
         this.introduction = good.getIntroduction();
         this.categoryid = good.getCategoryid();
+        this.picture = good.getPicture();
     }
 
 }
