@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<!-- 引入样式 -->
+	<link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+	<link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+	<!-- 引入组件库 -->
+<!--	<script src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript"></script>-->
+<!--	<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>-->
+
+	<script src="/page/js/vue.js"></script>
+	<script src="/page/js/vue-resource.js"></script>
+	<script src="/page/elementUI/element-min.js"></script>
+	<script src="/page/js/jquery.min.js"></script>
+
+	<title>商品查询</title>
+	<style>
+		.searchTd{
+			padding-right: 25px;
+		}
+		.gpic{width:100px;height:100px;text-align:center;vertical-align:middle;}
+	</style>
+</head>
+<body>
+<div id="app">
+	<div>
+		<table style="margin-left: 3%;margin-top: 2%">
+			<tr><td class="searchTd"><h4>查询条件</h4></td></tr>
+			<tr>
+				<td class="searchTd">
+					<span>商品类别</span>
+					<template>
+						<el-select v-model="category" multiple placeholder="请选择">
+							<el-option
+									v-for="item in categoryOption"
+									:key="item.id"
+									:label="item.categoryname"
+									:value="item.id">
+							</el-option>
+						</el-select>
+					</template>
+				</td>
+				<td class="searchTd">
+					<span>商品名称：</span>
+					<el-input
+							placeholder="请输入查询商品名称"
+							v-model="goodTitle"
+							style="width: 250px"
+							clearable>
+					</el-input>
+				</td>
+				<td class="searchTd"><button class="btn btn-default" @click="getGoodsList()">查询</button></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+	<el-table :data="goods"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
+		<el-table-column type="index" width="50"></el-table-column>
+		<el-table-column  label="商品图片" prop="picture" width="110">
+			<template scope="scope">
+				<img  :src="scope.row.picture"  class="gpic"/>
+			</template>
+		</el-table-column>
+		<el-table-column label="商品名称" prop="title" width="400"></el-table-column>
+		<el-table-column label="商品描述" prop="introduction" width="300"></el-table-column>
+<!--		<el-table-column label="价格" prop="price"></el-table-column>-->
+<!--		<el-table-column label="长(cm)" prop="longer"></el-table-column>-->
+<!--		<el-table-column label="宽(cm)" prop="wide"></el-table-column>-->
+<!--		<el-table-column label="高(cm)" prop="high"></el-table-column>-->
+<!--		<el-table-column label="重量(g)" prop="weight"></el-table-column>-->
+		<el-table-column label="库存" prop="quantity" width="100" sortable></el-table-column>
+		<el-table-column label="在途数量" prop="intrans" width="100" sortable></el-table-column>
+
+
+	</el-table>
+
+	</div>
+
+
+
+</div>
+
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				goodTitle: '',
+				category: [],
+				categoryOption: [],
+				goods:[],
+
+			},
+			mounted:function(){
+				var self = this;
+
+				 this.getGoodsList();
+				 this.getCategory();
+			},
+			methods:{
+
+				getGoodsList:function(){
+					let category = '';
+					this.category.map(function (item) {
+						category = category + item + ",";
+					});
+					let url = "/mvc/goods";
+					$.ajax({
+						type: 'POST',
+						url: url,
+						dataType:"json",
+						data: {goodTitle: this.goodTitle,category:category},
+						success: function (data) {
+							this.goods = data;
+							this.goods.sort(function (a,b) {
+										return a.quantity - b.quantity;
+									 })
+						}.bind(this)
+					});
+
+
+
+				},
+				getCategory: function(){
+					$.ajax({
+						url: 'http://localhost:8080/detail/getCategory',
+						type: 'GET',
+						success: function (data) {
+							this.categoryOption = data;
+						}.bind(this)
+					});
+				},
+
+
+			}
+
+
+		});
+
+	</script>
+
+
+</body>
+</html>

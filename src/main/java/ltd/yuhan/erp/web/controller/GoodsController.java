@@ -22,23 +22,28 @@ public class GoodsController {
 
     @RequestMapping(value = "/goods", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public List<Map<String,String>> getGoodsList(String goodTitle,String category) {
+    public List<Map> getGoodsList(String goodTitle,String category) {
         List<Goods> goodsAllList = goodsService.getGoodsByTitileAndCategory(goodTitle,category);
         return getViewMaps(goodsAllList);
 
+    }
+
+    @RequestMapping("/getGoodsPage")
+    public String getGoodsPage() {
+        return "goods";
     }
 
 
 
 
     // 查询库存，在返回list中添加库存数以及在途数
-    private List<Map<String, String>> getViewMaps(List<Goods> goodsAllList) {
+    private List<Map> getViewMaps(List<Goods> goodsAllList) {
 
-        List<Map<String,String>> returnList =new ArrayList<Map<String, String>>();
+        ArrayList<Map> returnList = new ArrayList<>();
 
         for (Goods goods: goodsAllList
              ) {
-            Map<String,String> returnMap= new HashMap<>();
+            Map returnMap= new HashMap<>();
             returnMap.put("picture","http://cbu01.alicdn.com/"+goods.getPicture());
             returnMap.put("title",goods.getTitle());
             returnMap.put("introduction",goods.getIntroduction());
@@ -47,8 +52,8 @@ public class GoodsController {
             returnMap.put("wide",goods.getWide().toPlainString());
             returnMap.put("high",goods.getHigh().toPlainString());
             returnMap.put("weight",goods.getWeight().toPlainString());
-            returnMap.put("quantity",String.valueOf(goodsService.getGoodsQty(goods.getId())));
-            returnMap.put("intrans",String.valueOf(goodsService.getGoodsInTrans(goods.getId())));
+            returnMap.put("quantity",goodsService.getGoodsQty(goods.getId()));
+            returnMap.put("intrans",goodsService.getGoodsInTrans(goods.getId()));
 
             returnList.add(returnMap);
 

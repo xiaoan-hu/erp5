@@ -46,6 +46,8 @@
         d.shoppingOrderId,
         d.goodsId,
         g.title,
+        g.picture,
+        g.introduction,
         d.qty,
         d.totalPrice,
         concat(TRUNCATE (d.totalprice / d.qty, 2)) AS price,

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<!-- 引入样式 -->
+	<link rel="stylesheet" type="text/css" href="/page/elementUI/element-min.css">
+	<link rel="stylesheet" type="text/css" href="/page/css/bootstrap.css">
+	<!-- 引入组件库 -->
+<!--	<script src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript"></script>-->
+<!--	<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>-->
+
+	<script src="/page/js/vue.js"></script>
+	<script src="/page/js/vue-resource.js"></script>
+	<script src="/page/elementUI/element-min.js"></script>
+	<script src="/page/js/jquery.min.js"></script>
+
+	<title>未完结订单查询</title>
+	<style>
+		.searchTd{
+			padding-right: 25px;
+		}
+
+	</style>
+</head>
+<body>
+<div id="app">
+	<div>
+		<table style="margin-left: 3%;margin-top: 2%">
+		<tr><td class="searchTd"><h4>未发货完成订单</h4></td></tr>
+
+		</table>
+	</div>
+	<div>
+
+	<el-table :data="orders"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
+		<el-table-column type="index" width="50"></el-table-column>
+		<el-table-column label="买家" prop="shopper" width="500"></el-table-column>
+		<el-table-column label="总价" prop="totalprice" width="100" text-align="right" sortable></el-table-column>
+		<el-table-column label="创建日期" prop="createtime" width="200" sortable></el-table-column>
+		<el-table-column label="test" prop="id"  sortable></el-table-column>
+		<el-table-column>
+			<template scope="scope">
+				<a :href='"/mvc/getSodetailPage?soid="+scope.row.id'>查看明细
+				</a>
+			</template>
+		</el-table-column>
+	</el-table>
+
+	</div>
+
+</div>
+
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				orders:[],
+
+			},
+			mounted:function(){
+				var self = this;
+
+				 this.getOrderList();
+				 // this.getCategory();
+			},
+			methods:{
+
+				getOrderList:function(){
+					// let category = '';
+					// this.category.map(function (item) {
+					// 	category = category + item + ",";
+					// });
+					let url = "/mvc/shoppingorders";
+					$.ajax({
+						type: 'POST',
+						url: url,
+						dataType:"json",
+						// data: {goodTitle: this.goodTitle,category:category},
+						success: function (data) {
+							this.orders = data;
+						}.bind(this)
+					});
+
+
+
+				},
+				// getCategory: function(){
+				// 	$.ajax({
+				// 		url: 'http://localhost:8080/detail/getCategory',
+				// 		type: 'GET',
+				// 		success: function (data) {
+				// 			this.categoryOption = data;
+				// 		}.bind(this)
+				// 	});
+				// },
+
+
+			}
+
+
+		});
+
+	</script>
+
+
+</body>
+</html>
