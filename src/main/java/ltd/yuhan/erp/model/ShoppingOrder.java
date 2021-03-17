@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 public class ShoppingOrder {
     //
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     private String shopper;
