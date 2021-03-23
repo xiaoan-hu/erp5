@@ -3,9 +3,11 @@ package ltd.yuhan.erp;
 import ltd.yuhan.erp.mapper.ShoppingOrderDetailMapper;
 import ltd.yuhan.erp.mapper.ShoppingOrderMapper;
 import ltd.yuhan.erp.mapper.WarehouseOutMapper;
+import ltd.yuhan.erp.mapper.WarehouseoutinfoDao;
 import ltd.yuhan.erp.model.ShoppingOrder;
 import ltd.yuhan.erp.model.WarehouseIn;
 import ltd.yuhan.erp.model.WarehouseOut;
+import ltd.yuhan.erp.model.Warehouseoutinfo;
 import ltd.yuhan.erp.service.GoodsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class WarehouseOutTest {
     private GoodsService goodsService;
     @Autowired
     private WarehouseOutMapper warehouseOutMapper;
+    @Autowired
+    private WarehouseoutinfoDao warehouseoutinfoDao;
 
 
     //如果order处于未完结状态
@@ -38,6 +42,14 @@ public class WarehouseOutTest {
              ) {
             //获取shopping id
             Long soId = s.getId();
+            Warehouseoutinfo warehouseoutinfo = new Warehouseoutinfo();
+            //拿到最大的infoid的现有的最大值，新建的值在最大的基础上加1
+            int infoId = warehouseoutinfoDao.selectMaxPrimaryKey() + 1;
+            warehouseoutinfo.setOutinfoid(infoId);
+            warehouseoutinfo.setOrderid(soId);
+            warehouseoutinfo.setCreatetime(new Date());
+            warehouseoutinfo.setStatus(0);
+
             List<Map> maps = shoppingOrderDetailMapper.selectSoDetailBySoId(soId);
             //循环订单中的每种商品，根据未发货量和库存量，计算出发货单应发货量
             for (int i = 0; i <maps.size() ; i++) {
@@ -59,6 +71,11 @@ public class WarehouseOutTest {
                 //库存量和该订单的未发量的两者较小的，为应发货量
                 int outGoods = Math.min(goodsQty, (saleQty - goodsOutTotal));
                 if(outGoods > 0){
+                    //一个订单进而有多个商品，可能之前已经创建过了这条info里，只有没有创建过，才再创建一次
+                    if(warehouseoutinfoDao.selectMaxPrimaryKey() < infoId){
+                        warehouseoutinfoDao.insert(warehouseoutinfo);
+                    }
+
                     WarehouseOut warehouseOut = new WarehouseOut();
                     warehouseOut.setGoodsid(goodsId);
                     TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
@@ -67,6 +84,7 @@ public class WarehouseOutTest {
                     warehouseOut.setQty(outGoods);
                     //出库单状态设为0，代表生成出库单，但未发货状态
                     warehouseOut.setStatus(0);
+                    warehouseOut.setInfoid(infoId);
                     warehouseOutMapper.insert(warehouseOut);
                 }
             }

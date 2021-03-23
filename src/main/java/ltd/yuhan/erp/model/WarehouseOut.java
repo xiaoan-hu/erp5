@@ -21,4 +21,6 @@ public class WarehouseOut {
 
     private Integer status;
 
+    private Integer infoid;
+
 }

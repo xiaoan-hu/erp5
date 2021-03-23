@@ -14,12 +14,11 @@
 	<script src="/page/elementUI/element-min.js"></script>
 	<script src="/page/js/jquery.min.js"></script>
 
-	<title>订单发货情况</title>
+	<title>发货单查询</title>
 	<style>
 		.searchTd{
 			padding-right: 25px;
 		}
-		.gpic{width:100px;height:100px;text-align:center;vertical-align:middle;}
 
 	</style>
 </head>
@@ -27,47 +26,24 @@
 <div id="app">
 	<div>
 		<table style="margin-left: 3%;margin-top: 2%">
-		<tr><td class="searchTd"><h4>订单已发情况</h4></td></tr>
-<!--			<tr>-->
-<!--				<td class="searchTd">-->
-<!--					<span>商品类别</span>-->
-<!--					<template>-->
-<!--						<el-select v-model="category" multiple placeholder="请选择">-->
-<!--							<el-option-->
-<!--									v-for="item in categoryOption"-->
-<!--									:key="item.id"-->
-<!--									:label="item.categoryname"-->
-<!--									:value="item.id">-->
-<!--							</el-option>-->
-<!--						</el-select>-->
-<!--					</template>-->
-<!--				</td>-->
-<!--				<td class="searchTd">-->
-<!--					<span>商品名称：</span>-->
-<!--					<el-input-->
-<!--							placeholder="请输入查询商品名称"-->
-<!--							v-model="goodTitle"-->
-<!--							style="width: 250px"-->
-<!--							clearable>-->
-<!--					</el-input>-->
-<!--				</td>-->
-<!--				<td class="searchTd"><button class="btn btn-default" @click="getGoodsList()">查询</button></td>-->
-<!--			</tr>-->
+		<tr><td class="searchTd"><h4>发货单查询</h4></td></tr>
+
 		</table>
 	</div>
 	<div>
 
 	<el-table :data="orders"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
 		<el-table-column type="index" width="50"></el-table-column>
-		<el-table-column  label="商品图片" prop="picture" width="110">
+		<el-table-column label="买家" prop="shopper" width="200"></el-table-column>
+		<el-table-column label="订单编号" prop="orderId" width="200" text-align="right" sortable></el-table-column>
+		<el-table-column label="创建日期" prop="createTime" width="300" sortable></el-table-column>
+<!--		<el-table-column label="test" prop="id"  ></el-table-column>-->
+		<el-table-column width="100">
 			<template scope="scope">
-				<img  :src="scope.row.picture"  class="gpic"/>
+				<a :href='"../page/warehouseout.html?infoid="+scope.row.outinfoid+"&orderId="+scope.row.orderId'>发货或查看
+				</a>
 			</template>
 		</el-table-column>
-		<el-table-column label="品名" prop="title" width="400" text-align="right" ></el-table-column>
-		<el-table-column label="商品描述" prop="introduction" width="300" text-align="right" ></el-table-column>
-		<el-table-column label="下单量" prop="qty" width="100" sortable></el-table-column>
-		<el-table-column label="已发货量" prop="goodsOutTotal" width="100" sortable></el-table-column>
 	</el-table>
 
 	</div>
@@ -93,23 +69,13 @@
 					// let category = '';
 					// this.category.map(function (item) {
 					// 	category = category + item + ",";
-					// });//
-					var soid= 0;
-					let urlData = decodeURIComponent(window.location.search);
-					urlData.replace("?","").split("&").map(function (item) {
-						let index = item.indexOf("=")+1;
-						if (item.startsWith("soid")) soid=item.substring(index);
-
-					})
-
-					let url = "/mvc/sodetails";
-
+					// });
+					let url = "/mvc/outinfolists";
 					$.ajax({
 						type: 'POST',
 						url: url,
 						dataType:"json",
-						data: {soId: soid},
-						// data: {soId: soid},
+						// data: {goodTitle: this.goodTitle,category:category},
 						success: function (data) {
 							this.orders = data;
 						}.bind(this)

@@ -39,27 +39,28 @@ public class ShoppingOrderController {
         return "shoppingOrder";
     }
 
-    @RequestMapping("/getSodetailPage")
-    public String getSodetailPage(Long soid, Model model) {
-        model.addAttribute("soid", soid);
-        return "shoppingOrderDetail";
-    }
+//    @RequestMapping("/getSodetailPage")
+//    public String getSodetailPage(String soid, Model model) {
+//        model.addAttribute("soid", soid);
+//        return "shoppingOrderDetail";
+//    }
 
 
     @RequestMapping(value = "/sodetails", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public List<Map> getSoDeatail(Long soId){
-        List<Map> maps = shoppingOrderDetailMapper.selectSoDetailBySoId(soId);
+    public List<Map> getSoDeatail(String soId){
+        List<Map> maps = shoppingOrderDetailMapper.selectSoDetailBySoId(Long.parseLong(soId));
         for (Map map:maps
              ) {
             Long goodsId = (Long) map.get("goodsId");
             //计算该goodid和soid对应的发货单的发货数量
             int goodsOutTotal = 0;
-            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, soId);
+            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, Long.getLong(soId));
             for (WarehouseOut out: warehouseOutByTerm
             ) {
                 goodsOutTotal += out.getQty();
             }
+            map.put("picture","http://cbu01.alicdn.com/"+map.get("picture"));
             map.put("goodsOutTotal",goodsOutTotal);
         }
         return maps;

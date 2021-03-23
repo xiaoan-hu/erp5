@@ -34,13 +34,13 @@
 
 	<el-table :data="orders"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
 		<el-table-column type="index" width="50"></el-table-column>
-		<el-table-column label="买家" prop="shopper" width="500"></el-table-column>
+		<el-table-column label="买家" prop="shopper" width="200"></el-table-column>
 		<el-table-column label="总价" prop="totalprice" width="100" text-align="right" sortable></el-table-column>
 		<el-table-column label="创建日期" prop="createtime" width="200" sortable></el-table-column>
-		<el-table-column label="test" prop="id"  sortable></el-table-column>
-		<el-table-column>
+<!--		<el-table-column label="test" prop="id"  ></el-table-column>-->
+		<el-table-column width="100">
 			<template scope="scope">
-				<a :href='"/mvc/getSodetailPage?soid="+scope.row.id'>查看明细
+				<a :href='"../page/shoppingOrderDetail.html?soid="+scope.row.id'>查看清单
 				</a>
 			</template>
 		</el-table-column>
