@@ -51,6 +51,7 @@ public class SoDetailController {
     }
 
     @RequestMapping(value = "/saveWo", method = RequestMethod.POST)
+    @ResponseBody
     public void saveWo(String outs) {
         JSONArray array = JSON.parseArray(outs);
         WarehouseOut warehouseOut = new WarehouseOut();

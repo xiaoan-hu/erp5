@@ -69,6 +69,7 @@
 			el:"#app",
 			data:{
 				orders:[],
+				outs:[]
 
 			},
 			mounted:function(){
@@ -118,9 +119,9 @@
 					$.ajax({
 						url: '/mvc/saveWo',
 						type: 'POST',
-						contentType:"application/x-www-form-urlencoded; charset=utf-8",
+						// contentType:"application/json",
 						dataType:"json",
-						data: {outs : JSON.stringify(app.orders)},
+						data:{outs:vm.orders},
 						success: function () {
 
 							alert("发货成功");
