@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.yuhan.erp.mapper.WarehouseoutinfoDao">
+  <resultMap id="BaseResultMap" type="ltd.yuhan.erp.model.Warehouseoutinfo">
+    <id column="outinfoid" jdbcType="INTEGER" property="outinfoid" />
+    <result column="orderId" jdbcType="BIGINT" property="orderid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    outinfoid, orderId, createTime, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from WarehouseOutInfo
+    where outinfoid = #{outinfoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from WarehouseOutInfo
+    where outinfoid = #{outinfoid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="outinfoid" keyProperty="outinfoid" parameterType="ltd.yuhan.erp.model.Warehouseoutinfo" useGeneratedKeys="true">
+    insert into WarehouseOutInfo (orderId, createTime, `status`, outinfoid
+      )
+    values (#{orderid,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{outinfoid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="outinfoid" keyProperty="outinfoid" parameterType="ltd.yuhan.erp.model.Warehouseoutinfo" useGeneratedKeys="true">
+    insert into WarehouseOutInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        orderId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ltd.yuhan.erp.model.Warehouseoutinfo">
+    update WarehouseOutInfo
+    <set>
+      <if test="orderid != null">
+        orderId = #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where outinfoid = #{outinfoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ltd.yuhan.erp.model.Warehouseoutinfo">
+    update WarehouseOutInfo
+    set orderId = #{orderid,jdbcType=BIGINT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=INTEGER}
+    where outinfoid = #{outinfoid,jdbcType=INTEGER}
+  </update>
+  <select id="selectMaxPrimaryKey" resultType="java.lang.Integer">
+    select  max(outinfoid) from WarehouseOutInfo
+
+  </select>
+
+  <select id="getWarehouseoutinfoByTerm" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+    s.outinfoid, CAST(s.orderId AS char )orderId, s.createTime, s.status, o.shopper
+    from WarehouseOutInfo s, ShoppingOrder o
+    where s.orderId = o.id
+<!--    <if test="status != null and status != '' ">-->
+      and s.status = #{status,jdbcType=INTEGER}
+<!--    </if>-->
+
+    ORDER BY
+    s.createTime ASC
+  </select>
+
+
+</mapper>
