@@ -11,6 +11,7 @@ import ltd.yuhan.erp.model.WarehouseOut;
 import ltd.yuhan.erp.model.Warehouseoutinfo;
 import ltd.yuhan.erp.model.vo.GoodsInfoVo;
 import ltd.yuhan.erp.model.vo.PoVo;
+import ltd.yuhan.erp.service.SoServie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,8 @@ public class SoDetailController {
     private WarehouseoutinfoDao warehouseoutinfoDao;
     @Autowired
     private WarehouseOutMapper warehouseOutMapper;
+    @Autowired
+    private SoServie soServie;
 
     @RequestMapping("/getWarehouseinfoPage")
     public String getOutListpage(){
@@ -61,7 +64,9 @@ public class SoDetailController {
             warehouseOut.setInfoid(Integer.parseInt(map.get("infoid")));
             warehouseOut.setStatus(1);
             warehouseOut.setQty(Integer.parseInt(map.get("qty")));
-            warehouseOut.setOrderid(Long.parseLong(map.get("orderId")));
+            long orderId = Long.parseLong(map.get("orderId"));
+            warehouseOut.setOrderid(orderId);
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
             warehouseOut.setCreatetime(new Date());
             warehouseOut.setGoodsid(Long.parseLong(map.get("goodsId")));
             warehouseOut.setId(Integer.parseInt(map.get("id")));
@@ -70,6 +75,8 @@ public class SoDetailController {
             Warehouseoutinfo outinfo = warehouseoutinfoDao.selectByPrimaryKey(Integer.parseInt(map.get("infoid")));
             outinfo.setStatus(1);
             warehouseoutinfoDao.updateByPrimaryKey(outinfo);
+            //调用service,如果商品全部发货Shopping order status为1
+            soServie.setClose(orderId);
 
         }
 
