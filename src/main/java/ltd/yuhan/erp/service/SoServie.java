@@ -6,11 +6,14 @@ import ltd.yuhan.erp.mapper.WarehouseOutMapper;
 import ltd.yuhan.erp.model.ShoppingOrder;
 import ltd.yuhan.erp.model.WarehouseOut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-
+@Service
+@Component
 public class SoServie {
 
     @Autowired
@@ -33,7 +36,7 @@ public class SoServie {
             Integer qty = (Integer) map.get("qty");
             //计算该goodid和soid对应的发货单的发货数量
             int goodsOutTotal = 0;
-            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, Long.parseLong(soId));
+            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, soId);
             for (WarehouseOut out: warehouseOutByTerm
             ) {
                 goodsOutTotal += out.getQty();
