@@ -50,7 +50,7 @@ public class SoDetailController {
 
     }
 
-    @RequestMapping(value = "/saveWo", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveWo", produces = "application/json;charset=utf-8")
     @ResponseBody
     public void saveWo(String outs) {
         JSONArray array = JSON.parseArray(outs);
