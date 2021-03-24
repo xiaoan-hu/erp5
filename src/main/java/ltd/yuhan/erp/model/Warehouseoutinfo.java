@@ -2,6 +2,8 @@ package ltd.yuhan.erp.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +21,7 @@ public class Warehouseoutinfo implements Serializable {
     /**
      * 销货单号
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long orderid;
 
     private Date createtime;
