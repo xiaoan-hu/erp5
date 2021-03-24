@@ -25,9 +25,9 @@
     set orderId = #{orderid,jdbcType=BIGINT},
       goodsId = #{goodsid,jdbcType=BIGINT},
       qty = #{qty,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP}
+      createTime = #{createtime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
-      infoid = #{infoid,jdbcType=INTEGER},
+      infoid = #{infoid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -53,7 +53,7 @@
   </select>
 
   <select id="getWarehouseOutByInfoid"  resultType="java.util.Map">
-  select w.id, w.orderId, w.goodsId, w.qty, w.createTime, w.status, w.infoid, g.picture, g.title, g.introduction
+  select w.id, CAST(w.orderId AS char ) as orderId, CAST(w.goodsId AS char ) as goodsId, w.qty, w.createTime, w.status, w.infoid, g.picture, g.title, g.introduction
   from WarehouseOut w,
   Goods g
   where w.goodsId=g.id
