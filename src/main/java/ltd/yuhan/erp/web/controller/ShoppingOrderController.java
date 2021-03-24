@@ -55,7 +55,7 @@ public class ShoppingOrderController {
             Long goodsId = (Long) map.get("goodsId");
             //计算该goodid和soid对应的发货单的发货数量
             int goodsOutTotal = 0;
-            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, Long.getLong(soId));
+            List<WarehouseOut> warehouseOutByTerm = warehouseOutMapper.getWarehouseOutByTerm(goodsId, Long.parseLong(soId));
             for (WarehouseOut out: warehouseOutByTerm
             ) {
                 goodsOutTotal += out.getQty();
