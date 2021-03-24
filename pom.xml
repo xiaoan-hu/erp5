@@ -40,7 +40,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-wht nty         <!--为本项目提供JSON转换功能-->
+       <!--为本项目提供JSON转换功能-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
