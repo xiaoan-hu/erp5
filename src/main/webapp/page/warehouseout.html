@@ -119,9 +119,8 @@
 					$.ajax({
 						url: '/mvc/saveWo',
 						type: 'POST',
-						// contentType:"application/json",
 						dataType:"json",
-						data:{outs:vm.orders},
+						data:{outs:JSON.stringify(vm.orders)},
 						success: function () {
 
 							alert("发货成功");
