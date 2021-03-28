@@ -11,11 +11,14 @@
     <groupId>ltd.yuhan</groupId>
     <artifactId>erp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>erp</name>
-    <description>Demo project for Spring Boot</description>
+    <description>erp for yuhan ltd</description>
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -25,6 +28,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.37</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,6 +82,17 @@
             <artifactId>mybatis-generator-core</artifactId>
             <version>1.3.7</version>
         </dependency>
+        <!-- 添加1688接口的两个依赖 -->
+        <dependency>
+            <groupId>Ali</groupId>
+            <artifactId>biz</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>Ali</groupId>
+            <artifactId>goods</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -86,7 +101,34 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+<!--                <configuration>-->
+<!--                    <mainClass>ltd.yuhan.erp.ErpApplication</mainClass>-->
+<!--                    <layout>JAR</layout>-->
+<!--                    <executable>true</executable>-->
+<!--                </configuration>-->
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>
+                                ltd.yuhan.erp.ErpApplication
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
+            </plugin>
+
             <plugin>
             <!--ref: https://gitee.com/free/Mybatis_Utils/blob/master/MybatisGeneator/MybatisGeneator.md -->
             <!--ref: https://www.cnblogs.com/handsomeye/p/6268513.html -->
@@ -109,6 +151,26 @@
 
             </plugin>
         </plugins>
+        <resources>
+
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/webapp</directory>
+                <!--注意此次必须要放在此目录下才能被访问到-->
+                <targetPath>META-INF/resources</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+
+
+        </resources>
+
     </build>
 
 </project>

@@ -35,14 +35,14 @@
 	<div>
 
 	<el-table :data="orders"  stripe border style="width: 94%;margin-left: 3%;margin-top: 2%;">
-		<el-table-column type="index" width="50"></el-table-column>
+		<el-table-column type="index" width="25"></el-table-column>
 		<el-table-column  label="商品图片" prop="picture" width="110">
 			<template scope="scope">
 				<img  :src="getImgUrl(scope.row.picture)" class="gpic"/>
 			</template>
 		</el-table-column>
-		<el-table-column label="商品名称" prop="title" width="250"></el-table-column>
-		<el-table-column label="商品描述" prop="introduction" width="250"></el-table-column>
+		<el-table-column label="商品名称" prop="title" width="200"></el-table-column>
+		<el-table-column label="商品描述" prop="introduction" width="200"></el-table-column>
 <!--		<el-table-column label="发货量" prop="qty" width="100" sortable></el-table-column>-->
 		<el-table-column label="发货量" width="120" sortable>
 			<template scope="scope">
@@ -55,11 +55,11 @@
 
 		</el-table-column>
 
-	</el-table
+	</el-table>
 
 	</div>
 	<div style="margin-left: 3%;margin-top: 2%">
-		<el-button round @click="commitWo()">确定发货</el-button>
+		<el-button round  @click="commitWo()" >确定发货</el-button>
 	</div>
 
 </div>
@@ -69,7 +69,8 @@
 			el:"#app",
 			data:{
 				orders:[],
-				outs:[]
+				outs:[],
+				dis: false
 
 			},
 			mounted:function(){
@@ -123,8 +124,6 @@
 						data:{outs:JSON.stringify(vm.orders)},
 						success: function () {
 
-							alert("发货成功");
-							window.close()
 						}.bind(this)
 
 					});

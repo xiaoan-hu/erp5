@@ -5,7 +5,9 @@ import java.util.Map;
 
 import ltd.yuhan.erp.model.ShoppingOrderDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
+@Component
 @Mapper
 public interface ShoppingOrderDetailMapper {
     int deleteByPrimaryKey(Integer id);

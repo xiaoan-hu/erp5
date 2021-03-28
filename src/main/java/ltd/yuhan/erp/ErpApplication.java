@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Configuration
 @SpringBootApplication
 @RestController
-@MapperScan(
-        //指定扫描包
-        basePackages = "ltd.yuhan.erp.*"
-)
+//@MapperScan(
+//        //指定扫描包
+//        basePackages = "ltd.yuhan.erp.*"
+//)
+@ComponentScan
 public class ErpApplication {
 
     public static void main(String[] args) {

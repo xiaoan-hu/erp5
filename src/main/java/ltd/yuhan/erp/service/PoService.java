@@ -122,8 +122,8 @@ public class PoService {
         return "";
     }
 
-    public static void main(String[] args) {
-        String str = String.format("%4d", 112).replace(" ", "0");
-        System.out.println(str);
-    }
+//    public static void main(String[] args) {
+//        String str = String.format("%4d", 112).replace(" ", "0");
+//        System.out.println(str);
+//    }
 }
