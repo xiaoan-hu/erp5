@@ -12,6 +12,7 @@ import ltd.yuhan.erp.model.ShoppingOrderDetail;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.expression.spel.ast.NullLiteral;
 
 import java.util.Date;
 
@@ -69,7 +70,13 @@ public class ShoppingOrderTest {
                     shoppingOrderDetail.setShoppingorderid(info.getBaseInfo().getId());
                     shoppingOrderDetail.setTotalprice(p.getItemAmount());
                     shoppingOrderDetail.setQty(p.getQuantity().intValue());
-                    shoppingOrderDetail.setGoodsid(p.getSkuID());
+                    //如果一种商品没有skuid，只有productid,在订单信息里拿到的skuid有可能是null
+                    if (p.getSkuID() != null){
+                        shoppingOrderDetail.setGoodsid(p.getSkuID());
+                    }else{
+                        shoppingOrderDetail.setGoodsid(p.getProductID());
+                    }
+
 
 //                    //拿到这一项的总价
 //                    System.out.println("单项总价"+p.getItemAmount());
