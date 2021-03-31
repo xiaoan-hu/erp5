@@ -46,7 +46,7 @@ public class WarehouseOutGet {
     public void getWarehouseOut(){
 
         //获取未完成order列表，0代表未完成，1代表完成
-        List<ShoppingOrder> shoppingOrderByTerm = shoppingOrderMapper.getShoppingOrderByTerm("0", "", "", "", "");
+        List<ShoppingOrder> shoppingOrderByTerm = shoppingOrderMapper.getShoppingOrderByTerm("0");
         for (ShoppingOrder s:shoppingOrderByTerm
              ) {
             //获取shopping id
