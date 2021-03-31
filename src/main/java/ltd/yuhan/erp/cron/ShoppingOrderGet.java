@@ -42,7 +42,7 @@ public class ShoppingOrderGet {
         // TODO 添加参数每五分钟抓取一次等待卖家发货的订单列表
         orderListParam.setOrderStatus("waitsellersend");
         //现在时间往前推五分钟，1分钟等于6万毫秒
-        orderListParam.setCreateStartTime(new Date(System.currentTimeMillis() -60000*5));
+        orderListParam.setCreateStartTime(new Date(System.currentTimeMillis() -60000*1440));
         SDKResult<AlibabaTradeGetSellerOrderListResult> execute = apiExecutor.execute(orderListParam,"894eab17-a695-4607-a549-10118a3152ec");
         ObjectMapper objectMapper = new ObjectMapper();
         AlibabaTradeGetSellerOrderListResult result = execute.getResult();
@@ -68,7 +68,13 @@ public class ShoppingOrderGet {
                     shoppingOrderDetail.setShoppingorderid(info.getBaseInfo().getId());
                     shoppingOrderDetail.setTotalprice(p.getItemAmount());
                     shoppingOrderDetail.setQty(p.getQuantity().intValue());
-                    shoppingOrderDetail.setGoodsid(p.getSkuID());
+//                    shoppingOrderDetail.setGoodsid(p.getSkuID());
+                    //如果一种商品没有skuid，只有productid,在订单信息里拿到的skuid有可能是null
+                    if (p.getSkuID() != null){
+                        shoppingOrderDetail.setGoodsid(p.getSkuID());
+                    }else{
+                        shoppingOrderDetail.setGoodsid(p.getProductID());
+                    }
                     shoppingOrderDetailMapper.insert(shoppingOrderDetail);
                 }
 

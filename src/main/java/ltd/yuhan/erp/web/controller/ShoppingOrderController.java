@@ -29,7 +29,7 @@ public class ShoppingOrderController {
     @RequestMapping(value = "/shoppingorders", produces = "application/json;charset=utf-8")
     @ResponseBody
     public List<ShoppingOrder> getOrdersList() {
-        List<ShoppingOrder> shoppingOrderByTerm = shoppingOrderMapper.getShoppingOrderByTerm("0", "", "", "", "");
+        List<ShoppingOrder> shoppingOrderByTerm = shoppingOrderMapper.getShoppingOrderByTerm("0");
         return shoppingOrderByTerm;
 
     }

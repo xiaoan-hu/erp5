@@ -44,29 +44,11 @@
 
   <select id="getShoppingOrderByTerm"  resultMap="BaseResultMap">
     SELECT
-    DISTINCT(s.id), s.shopper, s.totalQty, s.totalPrice, s.status, s.createBy, s.createTime
+    s.id, s.shopper, s.totalQty, s.totalPrice, s.status, s.createBy, s.createTime
     FROM
-    ShoppingOrder s,
-    ShoppingOrderDetail d,
-    Goods g
+    ShoppingOrder s
     WHERE
-    d.shoppingOrderId = s.id
-    AND g.id = d.goodsId
-    <if test="orderId != '' and  orderId != null">
-      AND s.id =  #{orderId,jdbcType=INTEGER}
-    </if>
-    <if test="category != null and category != '' ">
-      and g.categoryId =  #{category,jdbcType=INTEGER}
-    </if>
-    <if test="goodsTitle != '' and  goodsTitle != null">
-      AND g.title LIKE CONCAT('%', #{goodsTitle,jdbcType=VARCHAR},'%')
-    </if>
-    <if test="status != null and status != '' ">
-      and s.status = #{status,jdbcType=INTEGER}
-    </if>
-    <if test="shopper != '' and  shopper != null">
-      AND s.shopper LIKE CONCAT('%', #{shopper,jdbcType=VARCHAR},'%')
-    </if>
+     s.status = #{status,jdbcType=INTEGER}
     ORDER BY
     s.createTime ASC
   </select>

@@ -20,5 +20,5 @@ public interface ShoppingOrderMapper {
 
     int updateByPrimaryKey(ShoppingOrder record);
 
-    List<ShoppingOrder> getShoppingOrderByTerm(String status, String shopper,String goodsTitle, String category,String orderId);
+    List<ShoppingOrder> getShoppingOrderByTerm(String status);
 }
